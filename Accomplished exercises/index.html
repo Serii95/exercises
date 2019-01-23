@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exercises</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="exercisesStyle.css" type="text/css">
+    <script>
+    window.onload = function(){
+        console.log("Page has been loaded.");
+    }
+    </script>
+    <script src="exercise1P1.js" type="text/javascript" async="false"></script>
+    <script src="exercise1P2.js" type="text/javascript" async="false"></script>
+    <script src="exercise1P3.js" type="text/javascript" async="false"></script>
+    <script src="exercise1P5.js" type="text/javascript" async="false"></script>
+    <script src="exercise1P6.js" type="text/javascript" async="false"></script>
+    <script src="exercise2P1.js" type="text/javascript" async="false"></script>
+    <script src="exercise2P2.js" type="text/javascript" async="false"></script>
+    <script src="exercise2P3.js" type="text/javascript" async="false"></script>
+    <script src="christmassTreeExercise.js" type="text/javascript" async="false"></script>
+    <script src="exercise3P1.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P1.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P2.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P3.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P4.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P5.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P6.js" type="text/javascript" async="false"></script>
+    <script src="exercise6P7.js" type="text/javascript" async="false"></script>
+    <script src="exercises8.js" type="text/javascript" async="false"></script>
+</head>
+<body>
+    <div id="level1Exercises">
+        <h2>First lesson exercises</h2>
+        <button id="repetitive" type="button">Repeating sequence untill the number is higher than 100</button>
+        <button id="uneaven" type="button">Return uneaven numbers</button>
+        <button id="returnFizzBuzz" type="button">Return Fizz Buzz</button>
+        <button id="chess" type="button">Returning chess board</button>
+        <button id="exponentiation" type="button">Return exponentiation of a set number</button>
+        <button id="fabonnaci" type="button">Fibonacci function</button>
+        <button id="verifyCheckSpam" type="button">checkSpam verifyer</button>
+        <button id="twentyCharacters" type="button">20 characters limit</button>
+        <button id="christmassTree" type="button">Christmass Tree</button>
+        <button id="returnStudent" type="button">Return student name</button>
+        
+        <div id="displayDiv" class="notDisplayed">
+            <label for="christmassInput"></label>
+            <input type="text" id="christmassInput" placeholder="Insert the number of layers here">
+            <button type="submitt" id="submittChristmass">Submit</button>
+            <p id="christmassParagraph"></p>
+        </div>
+    </div>
+
+    <div id="level2Exercises">
+        <h2>Second lesson exercises</h2>
+        <button id="removeClassFunction" type="button">Remove class</button>
+        <button id="arraySorting" type="button">Sort an array</button>
+        <button id="arrayRandom" type="button">Sort an array in a random manner.</button>
+        <button id="arrayObjectSorting" type="button">Sort objects in an array in a set manner.</button>
+        <button id="checkPalyndrom" type="button">check if inserted number is a palundrom.</button>
+        <button id="theMostRare" type="button">Sort an array</button>
+        <button id="lastOneOfSix" type="button">Annagrams</button>
+    </div>
+    
+    <div id="level3Exercises">
+        <h3>Third lesson exercises</h3>
+
+        <h2>Задание 1 (Chaining)</h2>
+
+        <p>Есть объект ladder
+            var ladder = {
+              step: 0,
+              up: function() { // вверх по лестнице
+                this.step++;
+              },
+              down: function() { // вниз по лестнице
+                this.step--;
+              },
+              showStep: function() { // вывести текущую ступеньку
+                alert( this.step );
+              }
+            };</p>
+        <p>Сейчас, для последовательного вызова нескольких методов объекта, нужно делать так сделать так:</p>
+        <p> ladder.up();</p>
+        <p> ladder.up();</p>
+        <p> ladder.down();</p>
+        <p> ladder.showStep(); // 1</p>
+        <p> Модифицируйте код методов объекта, чтобы вызовы можно было делать цепочкой:</p>
+        <p> ladder.up().up().down().up().down().showStep(); // 1
+            Такой подход называется «чейнинг» (chaining)</p>
+
+        <hr>
+
+        <h2>Задание 2 (Calculator)</h2>
+
+        <p>Напишите конструктор Calculator, который создаёт расширяемые объекты-калькуляторы.
+        Эта задача состоит из двух частей, которые можно решать одна за другой.</p>
+        <p>Первый шаг задачи: вызов calculate(str) принимает строку, например «1 + 2», с жёстко заданным форматом «ЧИСЛО операция ЧИСЛО» (по одному пробелу вокруг операции), и возвращает результат. Понимает плюс + и минус -. Пример использования:
+        var calc = new Calculator;</p>
+        
+        <p>console.log( calc.calculate('3 + 7') ); // 10</p>
+        <p>Второй шаг — добавить калькулятору метод addMethod(name, func), который учит калькулятор новой операции. Он получает имя операции name и функцию от двух аргументов func(a,b), которая должна её реализовывать. Например, добавим операции умножить , поделить / и возвести в степень *:</p>
+        <p>var powerCalc = new Calculator;
+        powerCalc.addMethod('*', function(a, b) {
+          return a * b;
+        });</p>
+        <p>powerCalc.addMethod('/', function(a, b) {
+          return a / b;
+        });</p>
+        <p>powerCalc.addMethod('**', function(a, b) {
+          return Math.pow(a, b);
+        });</p>
+        
+        <p>var result = powerCalc.calculate('2 ** 3');
+        console.log( result ); // 8</p>
+
+        <ul>
+        <li>Поддержка скобок и сложных математических выражений в этой задаче не требуется.</li>
+        <li>Числа и операции могут состоять из нескольких символов. Между ними ровно один пробел.</li>
+        <li>Предусмотрите обработку ошибок. Какая она должна быть – решите сами.</li>
+        </ul>
+
+<hr>
+
+</div>
+
+   
+
+</body>
+</html>

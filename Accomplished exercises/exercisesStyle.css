@@ -1,0 +1,30 @@
+.notDisplayed {
+    display: none;
+}
+
+#level1Exercises {
+    margin-top: 5%;
+    margin-left: 40%;
+    width: 20%;
+    height: 15%;
+    padding: 5%;
+    background-color: rgb(204, 0, 153);
+}
+
+#level2Exercises {
+    margin-top: 5%;
+    margin-left: 40%;
+    width: 20%;
+    height: 15%;
+    padding: 5%;
+    background-color: rgb(0, 102, 255);
+}
+
+#level3Exercises {
+    margin-top: 5%;
+    margin-left: 35%;
+    width: 30%;
+    height: 15%;
+    padding: 5%;
+    background-color:rgb(237, 180, 37);
+}

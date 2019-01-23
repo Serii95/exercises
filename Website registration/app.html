@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>This is a login exercise.</title>
+        <meta charset="utf-8">
+        <link href="websiteStyle.css" type="text/css" rel="stylesheet">
+        <script>
+        window.onload = function(){
+            console.log("Window loaded");
+        }
+        </script>
+    </head>
+    <body>
+        <div id="errorDisplay">
+                <ul id="errorMessage"></ul>
+        </div>
+        <div id="registrationDisplay">
+            <!-- <form action="" method="GET" class="form-example"> -->
+                <div class="form-example">
+                    <label for="username">Username:</label>
+                    <input id="username" type="text" placeholder="Username">
+                </div>
+                <div class="form-example">
+                    <label for="password">Password:</label>
+                    <input id="password" type="password" placeholder="Password">
+                </div>
+                <div class="form-example">
+                    <label for="repeatPassword">Repeat password:</label>
+                    <input id="repeatPassword" type="password" placeholder="password">
+                </div>
+                <div class="form-example">
+                        <label for="terms">Make shure to chek our terms and conditions.</label>
+                        <button id="terms" type="button">View More</button>
+                </div>
+                <div class="form-example">
+                    <label for="check">I agree to the terms and conditions.</label>
+                    <input id="check" type="checkbox">
+                </div>
+                <div class="form-example">
+                    <label for="submittButton"></label>
+                    <input id="submittButton" type="submit" value="Register">
+                </div>
+            <!-- </form> -->
+        </div>
+        <div id="termsDisplay" class="notDisplayed">
+            <h1 id="termHeading">Terms and Conditions.</h1>
+            <p class="termParagraph">Bacon ipsum dolor amet burgdoggen et in drumstick, officia
+            consectetur commodo venison corned beef ex in tail. Pork belly biltong
+             veniam eu labore cow kevin ham alcatra adipisicing dolor ea in nisi. 
+             Excepteur ut velit dolore, picanha drumstick id leberkas rump nisi corned 
+             beef adipisicing chicken hamburger esse. Bacon sunt ribeye in, dolor 
+             venison boudin lorem bresaola eu adipisicing biltong porchetta shankle 
+             pancetta. Alcatra ham nulla bacon minim prosciutto consequat filet mignon 
+             brisket cupim ball tip duis sint.</p>
+
+            <p class="termParagraph">Bacon ipsum dolor amet burgdoggen et in drumstick, officia
+            consectetur commodo venison corned beef ex in tail. Pork belly biltong
+            veniam eu labore cow kevin ham alcatra adipisicing dolor ea in nisi. 
+            Excepteur ut velit dolore, picanha drumstick id leberkas rump nisi corned 
+            beef adipisicing chicken hamburger esse. Bacon sunt ribeye in, dolor 
+            venison boudin lorem bresaola eu adipisicing biltong porchetta shankle 
+            pancetta. Alcatra ham nulla bacon minim prosciutto consequat filet mignon 
+            brisket cupim ball tip duis sint.</p>
+
+            <p class="termParagraph">Bacon ipsum dolor amet burgdoggen et in drumstick, officia
+            consectetur commodo venison corned beef ex in tail. Pork belly biltong
+            veniam eu labore cow kevin ham alcatra adipisicing dolor ea in nisi. 
+            Excepteur ut velit dolore, picanha drumstick id leberkas rump nisi corned 
+            beef adipisicing chicken hamburger esse. Bacon sunt ribeye in, dolor 
+            venison boudin lorem bresaola eu adipisicing biltong porchetta shankle 
+            pancetta. Alcatra ham nulla bacon minim prosciutto consequat filet mignon 
+            brisket cupim ball tip duis sint.</p>
+        </div>
+        <div id="registeredDisplay" class="notDisplayed">
+            <h1 id="registrationMessage">Congradulations you just Registered.</h1>
+        </div>
+
+        </div>
+        <script src="websiteScript.js"></script>
+    </body>
+</html>

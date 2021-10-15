@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    const map = [];
+    const mapHeight = 20;
+    const mapWidth = 20;
+    const takenEntityFields = {x: [], y: []};
+    const entities = {
+        player: {x: 0, y: 0, nextX: 0, nextY: 0, symbol: "@"},
+        exit: {x: 0, y: 0, symbol: "e"},
+    };
+
+    function generateMap(){
+        const characters = ['.', '#'];
+        const maxNum = characters.length;
+
+        for(let i = 0; i < mapHeight; i++){
+            let row = [];
+            for(let j = 0; j < mapWidth; j++){
+                let randomNum = Math.floor(Math.random() * (maxNum - 0) +0);
+                // console.log(randomNum);
+                row.push(characters[randomNum]);
+            }
+            map.push(row);
+        }
+        asignEntity(entities.player);
+        asignEntity(entities.exit);
+        drawMap();
+    }
+
+    function asignEntity(entity){
+        for(let field in takenEntityFields){
+            let randomNum;
+            do{
+                randomNum = Math.floor(Math.random() * (mapHeight - 0) +0);
+            }
+            while(field.includes(randomNum));
+            entity[field] = randomNum;
+        }
+        if(entity.nextX !== undefined){
+            entity.nextX = entity.x;
+            entity.nextY = entity.y;
+        }
+        setEntity(entity)
+    }
+
+    function setEntity(entity){
+        map[entity.y][entity.x] = entity.symbol;
+    }
+
+    function updatePlayerEntity(axis, value){
+        map[entities.player.y][entities.player.x] = ".";
+        entities.player.x = entities.player.nextX;
+        entities.player.y = entities.player.nextY;
+        map[entities.player.y][entities.player.x] = entities.player.symbol;
+        checkForWin();
+    }
+
+    function checkForWin(){
+        if(entities.player.x === entities.exit.x && 
+        entities.player.y === entities.exit.y){
+            console.clear();
+            console.log("You escaped, congratulations");
+        } else {
+            drawMap();
+        }
+    }
+
+    function drawMap(){
+        console.clear();
+        for(let row of map){
+            console.log(...row);
+        }
+        console.log(entities);
+    }
+
+    function movePlayer(axis, value){
+        if(axis === "x"){
+            if(value){
+                if(map[entities.player.y][entities.player.x+1] !== "#"){
+                    entities.player.nextX+=1;
+                }
+            } else {
+                if(map[entities.player.y][entities.player.x-1] !== "#"){
+                    entities.player.nextX-=1;
+                }
+            }
+        } else {
+            if(value){
+                if(map[entities.player.y+1][entities.player.x] !== "#"){
+                    entities.player.nextY+=1;
+                }
+            } else {
+                if(map[entities.player.y-1][entities.player.x] !== "#"){
+                    entities.player.nextY-=1;
+                }
+            }
+        }
+        updatePlayerEntity(axis, value);
+    }
+
+    generateMap();
+
+    document.addEventListener('keydown', e => {
+        let axis = e.keyCode === 65 || e.keyCode === 68 ? "x" : "y";
+        let value = e.keyCode === 83 || e.keyCode === 68 ? true : false;
+        movePlayer(axis, value)
+        // console.log(e.keyCode);
+    })
+
+</script>
+</html>

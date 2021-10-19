@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(31, 29, 29);
+        }
+        .textClass {
+            color: white;
+        }
+        .notVisible {
+            display: none;
+            /* background-color: rgb(56, 53, 53); */
+        }
+    </style>
+</head>
+<body>
+    <div id="gameDiv" class="notVisible">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <div id="menuDiv">
+        <div>
+            <p class="textClass">Speed</p>
+            <input id="speedRange" type="range" min="1" max="1000">
+        </div>
+        <div>
+            <p class="textClass">Android Version</p>
+            <input id="androidCheck" type="checkbox">
+        </div>
+        <button id="startButton">Start</button>
+    </div>
+</body>
+<script>
+    // Version 0.2
+    // Variables
+    var c = document.querySelector("canvas");
+    var ctx = c.getContext("2d");
+    var speedRange = document.querySelector("#speedRange");
+    var startButton = document.querySelector("#startButton");
+    var gameDiv = document.querySelector("#gameDiv");
+    var menuDiv = document.querySelector("#menuDiv");
+    var androidCheck = document.querySelector("#androidCheck");
+    var cwidth=c.width;
+    var cheight=c.height;
+    var snakeSize=10;
+    var snakeSpeed=200;
+    var timeOutID;
+    var snakeLength;
+    var left = true;
+    var right = false;
+    var up = false;
+    var down = false;
+    var apple = true;
+    var appleX = 250;
+    var appleY = 250;
+    var grow=false;
+    var growCycle=0;
+    var newBody;
+    var gameOver=false;
+    var score=0;
+    var freeSpaces = [];
+    var ocupied = false;
+
+
+    startButton.addEventListener("click", function(){
+        menuDiv.classList.add("notVisible");
+        gameDiv.classList.remove("notVisible");
+        snakeLength=[];
+        snakeLength = [
+        {x: 100, y: 100},
+        {x: 110, y: 100},
+        {x: 120, y: 100},
+        {x: 130, y: 100}
+    ];
+    startGame();
+    });
+
+    speedRange.addEventListener("change", function(){
+        snakeSpeed=1001-Number(speedRange.value);
+    });
+
+    //  Calling main function
+    // drawEverything();
+    // gameBeginning();
+
+    function startGame(){
+        if(androidCheck.checked===true){
+            c.width=300;
+            c.height=300;
+            cwidth=c.width;
+            cheight=c.height;
+            c.webkitRequestFullScreen();
+        }
+        drawEverything();
+    }
+
+    // Main function
+    function drawEverything(){
+
+    // Keyboard event listeners
+    document.addEventListener("keydown", function(e){
+        // 65 68 87 83
+        // console.log(e.keyCode);
+        if(e.keyCode === 65){
+            if(!right){
+            left=true;
+            right=false;
+            up=false;
+            down=false;
+            }
+        } else if(e.keyCode === 68){
+            if(!left){
+            left=false;
+            right=true;
+            up=false;
+            down=false;
+            }
+        } else if(e.keyCode === 87){
+            if(!down){
+            left=false;
+            right=false;
+            up=true;
+            down=false;
+            }
+        } else if(e.keyCode === 83){
+            if(!up){
+            left=false;
+            right=false;
+            up=false;
+            down=true;
+            }
+        } else if(e.keyCode === 90){
+            clearTimeout(timeOutID);
+        }
+    });
+
+        // Touch event listeners
+        document.addEventListener("touchstart", function(e){
+        // 65 68 87 83
+        // console.log(e.keyCode);
+        if(e.touches[0].pageX < 150 && e.touches[0].pageY > 200 && e.touches[0].pageY < 400){
+            if(!right){
+            left=true;
+            right=false;
+            up=false;
+            down=false;
+            }
+        } else if(e.touches[0].pageX >= 150 && e.touches[0].pageY > 200 && e.touches[0].pageY < 400){
+            if(!left){
+            left=false;
+            right=true;
+            up=false;
+            down=false;
+            }
+        } else if(e.touches[0].pageY < 200){
+            if(!down){
+            left=false;
+            right=false;
+            up=true;
+            down=false;
+            }
+        } else if(e.touches[0].pageY > 400){
+            if(!up){
+            left=false;
+            right=false;
+            up=false;
+            down=true;
+            }
+        }
+    });
+
+    // Calling secondary functions
+    ctx.clearRect(0,0,cwidth,cheight);
+    ctx.fillStyle="rgb(56, 53, 53)";
+    ctx.fillRect(0,0,cwidth,cheight);
+    moveSnake();
+    drawSnake();
+    eatFood();
+    drawFood();
+    snakeGrow();
+    checkForFail();
+    if(!gameOver){
+        timeOutID = setTimeout(drawEverything, snakeSpeed);
+    }
+    }
+
+    // Secondary functions
+    function gameBeginning(){
+        ctx.clearRect(0,0,cwidth,cheight);
+        ctx.fillStyle="black";
+        ctx.fillRect(0,0,cwidth,cheight);
+        ctx.fillStyle="green";
+        ctx.fillRect(100,200,300,100);
+        ctx.fillStyle="white";
+        ctx.font = '30px serif';
+        ctx.fillText('PRESS SPACE', 150, 270);
+        document.addEventListener("keydown", function(e){
+            drawEverything();
+        });
+    }
+
+    function moveSnake(){
+        for(var i = snakeLength.length-1; i > 0; i--){
+            snakeLength[i].x = snakeLength[i-1].x;
+            snakeLength[i].y = snakeLength[i-1].y;
+        }
+        if(left){
+            snakeLength[0].x-=10;
+        } else if (right){
+            snakeLength[0].x+=10;
+        } else if(up){
+            snakeLength[0].y-=10;
+        } else if(down){
+            snakeLength[0].y+=10;
+        }
+    };
+
+    function drawSnake(){
+        ctx.fillStyle="white";
+        for(var i = 0; i < snakeLength.length; i++){
+            ctx.fillRect(snakeLength[i].x, snakeLength[i].y, snakeSize, snakeSize);
+        }
+    }
+
+    function eatFood(){
+        if(snakeLength[0].x===appleX && snakeLength[0].y===appleY){
+            apple=false;
+            grow=true;
+            growCycle=snakeLength.length-1;
+            newBody={x: snakeLength[0].x, y: snakeLength[0].y};
+            score++;
+        }
+    }
+
+    function drawFood(){
+        if(!apple){
+            freeSpaces = [{}];
+            ocupied = false;
+            
+            for(var k = 0; k < snakeLength.length; k++){
+            for (var i = 10; i <= cwidth-10; i+=10){
+                ocupyed = false;
+                for(var j = 10; j <= cheight-10; j+=10){
+
+                        if(snakeLength[k].x !== i && snakeLength[k].y !== j){
+                            freeSpaces.push({x: i, y: j});
+                        }
+                    }
+                }
+            }
+            var randomSpace = Math.floor(Math.random() * ((freeSpaces.length-1)+1));
+            if(randomSpace < 0){
+                randomSpace=1;
+            }
+            console.log(randomSpace);
+            console.log(freeSpaces);
+            appleX=freeSpaces[randomSpace].x;
+            appleY=freeSpaces[randomSpace].y;
+            apple=true;
+        } if(apple){
+            ctx.fillStyle="red";
+            ctx.fillRect(appleX,appleY,snakeSize, snakeSize);
+        }
+    }
+
+    function snakeGrow(){
+        if(grow){
+            growCycle--;
+            if(growCycle===0){
+                snakeLength.push(newBody);
+                grow=false;
+            }
+        }
+    }
+
+    function checkForFail(){
+        for(var i = 1; i < snakeLength.length; i++){
+            if(snakeLength[0].x===snakeLength[i].x && snakeLength[0].y===snakeLength[i].y){
+                gameOverFunction();
+            }
+        } if(snakeLength[0].x < 0 || 
+        snakeLength[0].x > cwidth || 
+        snakeLength[0].y < 0 || 
+        snakeLength[0].y > cheight){
+            gameOverFunction();
+        }
+    };
+
+    function gameOverFunction(){
+        ctx.clearRect(0,0,cwidth,cheight);
+        ctx.fillStyle="black";
+        ctx.fillRect(0,0,cwidth,cheight);
+        ctx.fillStyle="white";
+        ctx.font = '50px serif';
+        ctx.fillText('GAME OVER', cwidth/2-150,cheight/4);
+        ctx.font = '30px serif';
+        ctx.fillText('YOUR SCORE', cwidth/2-90,cheight/2+60);
+        ctx.font = '30px serif';
+        ctx.fillText(score, cwidth/2,cheight/2);
+        ctx.fillText("Click or tap the screen to continue", cwidth/2-200,cheight-20);
+        gameOver=true;
+    };
+
+    function backToMenu(){
+        gameDiv.classList.add("notVisible");
+        menuDiv.classList.remove("notVisible");
+    }
+
+</script>
+</html>

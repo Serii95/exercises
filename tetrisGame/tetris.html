@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <style>
+        body {
+            background-color: rgb(32, 29, 29);
+        }
+    </style>
+</head>
+<body>
+    <button id="startTheGame">Start the game</button>
+    <canvas id="c" width="500" height="800"></canvas>
+</body>
+
+<script>
+    const c = document.querySelector("#c");
+    const startGameButton = document.querySelector("#startTheGame");
+
+    const ctx = c.getContext("2d");
+    const cWidth = c.width;
+    const cHeight = c.height;
+
+    const shapeNames = ["line", "cube", "L", "lightning", "T"];
+    let shape = {};
+    const cubes = [];
+
+    const backgroundColor = "#000";
+    const cubeColor = '#fff';
+    const defaultCubeSize = 50;
+    const cubeBuffer = 6;
+
+    function startGame(){
+        timeoutLoop();
+    }
+
+    // Calculating everything
+    function timeoutLoop(){
+        checkTopShape();
+        setTimeout(() => {
+            timeoutLoop();
+        }, 1000);
+    }
+
+    function checkTopShape(){
+        if(Object.keys(shape).length === 0){
+            console.log("Adding shape");
+            addShape();
+        } else {
+            moveTopShape();
+        }
+        drawEverything();
+    }
+
+    // Adding new shapes
+    function addShape(){
+        shape = {};
+        // let randomNumber = Math.floor(Math.random() * (shapeNames.length - 0));
+        let randomNumber = 1;
+        switch (randomNumber){
+            case 1:
+                addCube();
+                break;
+            default:
+                addLine();
+        }
+    }
+
+    // Shape types
+    function addLine(){
+    }
+
+    function addCube(){
+        const horizontalPozition = (Math.round((Math.random() * ((cWidth-(defaultCubeSize*2)) - 0))/defaultCubeSize)*defaultCubeSize);
+        const verticalPosition = 0;
+        console.log(horizontalPozition);
+        shape = {
+            shape: shapeNames[1],
+            cubes: {
+                A: {
+                    x: horizontalPozition,
+                    y: verticalPosition,
+                },
+                B: {
+                    x: horizontalPozition+defaultCubeSize,
+                    y: verticalPosition,
+                },
+                C: {
+                    x: horizontalPozition,
+                    y: verticalPosition+defaultCubeSize,
+                },
+                D: {
+                    x: horizontalPozition+defaultCubeSize,
+                    y: verticalPosition+defaultCubeSize,
+                }
+            },
+            borderBottom: verticalPosition+(defaultCubeSize*2),
+            borderLeft: horizontalPozition,
+            borderRight: horizontalPozition+defaultCubeSize
+        };
+    }
+
+    // Moving the top shape
+    function moveTopShape(){
+        shape.cubes.A.y+=defaultCubeSize;
+        shape.cubes.B.y+=defaultCubeSize;
+        shape.cubes.C.y+=defaultCubeSize;
+        shape.cubes.D.y+=defaultCubeSize;
+        shape.borderBottom += defaultCubeSize;
+        checkShapeCollision(shape);
+    }
+
+    function checkShapeCollision(shape){
+        console.log(shape.borderBottom, cHeight);
+        if(shape.borderBottom >= cHeight){
+            Object.values(shape.cubes).forEach(cube => {
+                cubes.push(cube);
+            });
+            console.log(cubes);
+            addShape();
+        }
+    }
+
+    // Drawing everything
+    function drawEverything(){
+        ctx.clearRect(0, 0, cWidth, cHeight);
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, cWidth, cHeight);
+        drawBottomCubes();
+        drawMobileShape();
+    }
+
+    function drawBottomCubes(){
+        cubes.forEach(cube => {
+            ctx.fillStyle = cubeColor;
+            ctx.fillRect(cube.x+cubeBuffer, cube.y+cubeBuffer, defaultCubeSize-cubeBuffer, defaultCubeSize-cubeBuffer);
+        });
+    }
+
+    function drawMobileShape(){
+        ctx.fillStyle = cubeColor;
+        ctx.fillRect(shape.cubes.A.x+cubeBuffer, shape.cubes.A.y+cubeBuffer, defaultCubeSize-cubeBuffer, defaultCubeSize-cubeBuffer);
+        ctx.fillRect(shape.cubes.B.x+cubeBuffer, shape.cubes.B.y+cubeBuffer, defaultCubeSize-cubeBuffer, defaultCubeSize-cubeBuffer);
+        ctx.fillRect(shape.cubes.C.x+cubeBuffer, shape.cubes.C.y+cubeBuffer, defaultCubeSize-cubeBuffer, defaultCubeSize-cubeBuffer);
+        ctx.fillRect(shape.cubes.D.x+cubeBuffer, shape.cubes.D.y+cubeBuffer, defaultCubeSize-cubeBuffer, defaultCubeSize-cubeBuffer);
+    }
+
+    startGameButton.addEventListener("click", () => {
+        startGame();
+    });
+
+</script>
+
+</html>

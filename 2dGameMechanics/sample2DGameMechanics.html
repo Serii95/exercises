@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style></style>
+</head>
+<body>
+    <canvas id="c" width="1000" height="800"></canvas>
+    
+
+    <script>
+        const c = document.querySelector("#c");
+        const ctx = c.getContext("2d");
+        const FPS = 50;
+        var mouseX;
+        var mouseY;
+        var gasPressed = false;
+        var turnLeft = false;
+        var turnRight = false;
+        var turnTurretLeft = false;
+        var turnTurretRight = false;
+        var projectileSpeed = 4;
+        var bulletSpeed = 10;
+        var MGFire = false;
+        var spotlightOn = false;
+        var moveGrass = false;
+        var moveGrassDelay = Math.floor(Math.random() * (1000 - 10)+10);
+        var moveGrassStep = 0;
+
+        const player = {
+            x: 300,
+            y: 300,
+            speed: 0,
+            speedDelay: 0,
+            angle: 0,
+            turretAngle: 0,
+            projectorAngle: 0
+        };
+
+        const projectiles = [];
+
+        const bullets = [];
+
+        const grassPoints = [
+            {a: 650, b: 653, c: 656},
+            {a: 659, b: 662, c: 665},
+            {a: 668, b: 671, c: 674},
+            {a: 677, b: 680, c: 683},
+            {a: 686, b: 689, c: 692},
+            {a: 695, b: 698, c: 701},
+        ];
+
+        const destructibles = [{x: 164, y:457, w: 70, h: 30, destroyed: false}];
+
+        document.addEventListener("keydown", keyDownFunction);
+        document.addEventListener("keyup", keyUpFunction);
+        document.addEventListener("mousemove", mouseMoveFunction);
+
+        setInterval(draw, 1000 / FPS);
+
+        function keyDownFunction(evt){
+            console.log(evt.keyCode);
+            switch(evt.keyCode){
+                // 87 83 65 68 38 40
+                case 87:
+                    gasPressed = true;
+                break;
+                case 83:
+                    if(player.speed > 0){
+                        player.speedDelay-=300;
+                        player.speed = Math.round(player.speedDelay / 100);
+                    }
+                break;
+                case 65:
+                    turnLeft = true;
+                break;
+                case 68:
+                    turnRight = true;
+                break;
+                case 37:
+                    turnTurretLeft = true;
+                break;
+                case 39:
+                    turnTurretRight = true;
+                break;
+                case 32:
+                    projectiles.push({x: player.x, y: player.y, angle: player.turretAngle});
+                break;
+                case 88:
+                    MGFire = true;
+                break;
+                case 90:
+                    spotlightOn = !spotlightOn;
+                break;
+            }
+        }
+        function keyUpFunction(evt){
+            switch(evt.keyCode){
+                case 87:
+                    gasPressed = false;
+                break;
+                case 65:
+                    turnLeft = false;
+                break;
+                case 68:
+                    turnRight = false;
+                break;
+                case 37:
+                    turnTurretLeft = false;
+                break;
+                case 39:
+                    turnTurretRight = false;
+                break;
+                case 88:
+                    MGFire = false;
+                break;
+            }
+        }
+
+        function mouseMoveFunction(evt){
+            mouseX = evt.clientX;
+            mouseY = evt.clientY;
+            // console.log(evt.clientX, evt.clientY);
+        }
+
+        function draw(){
+            if(gasPressed){
+                if(player.speedDelay < 3000){
+                    player.speedDelay+=100;
+                    player.speed = Math.round(player.speedDelay / 1000);
+                }
+            } 
+            if(!gasPressed){
+                if(player.speed > 0){
+                    player.speedDelay-=10;
+                    player.speed = Math.round(player.speedDelay / 1000);
+                }
+            }
+            if(turnLeft){
+                player.angle -= 2;
+                player.turretAngle -=2;
+            }
+            if(turnRight){
+                player.angle += 2;
+                player.turretAngle +=2;
+            }
+            if(turnTurretLeft){
+                player.turretAngle -=2;
+            }
+            if(turnTurretRight){
+                player.turretAngle +=2;
+            }
+
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, c.width, c.height);
+
+            ctx.fillStyle = "purple";
+            ctx.fillRect(400, 286, 934, 659);
+
+            // Destructible object
+            destructibles.forEach(e => {
+                if(e.destroyed){
+                    destructibles.shift();
+                    return;
+                } else {
+                    ctx.fillStyle = "brown";
+                    ctx.fillRect(e.x, e.y, e.w, e.h);
+                }
+            });
+
+
+            // Hull
+            ctx.save();
+            ctx.fillStyle = "gray";
+            ctx.translate(player.x, player.y);
+            ctx.rotate(player.angle * Math.PI / 180);
+            ctx.fillRect(-50, -30, 120, 60);
+            ctx.restore();
+
+            player.x += player.speed * Math.cos(Math.PI / 180 * player.angle);
+            player.y += player.speed * Math.sin(Math.PI / 180 * player.angle);
+
+            //Engine hatch
+            ctx.save();
+            ctx.fillStyle = "gray";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.translate(player.x, player.y);
+            ctx.rotate(player.angle * Math.PI / 180);
+            ctx.fillRect(-44, -20, 20, 40);
+            ctx.strokeRect(-44, -20, 20, 40);
+            ctx.restore();
+
+            //Driver hath
+            ctx.save();
+            ctx.fillStyle = "gray";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.translate(player.x, player.y);
+            ctx.rotate(player.angle * Math.PI / 180);
+            ctx.beginPath();
+            ctx.arc(50, -8, 10, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+
+            // Shots
+            projectiles.forEach(e => {
+                if(e.destroyed){
+                    projectiles.shift();
+                    return;
+                }
+                ctx.strokeStyle = "white";
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+
+                e.x += projectileSpeed * Math.cos(Math.PI / 180 * e.angle);
+                e.y += projectileSpeed * Math.sin(Math.PI / 180 * e.angle);
+
+                destructibles.forEach(dest => {
+                    if(e.x > dest.x && e.x < dest.x + dest.w){
+                        if(e.y > dest.y && e.y < dest.y + dest.h){
+                            dest.destroyed = true;
+                            e.destroyed = true;
+                        }
+                    }
+                });
+            });
+
+            //MG fire
+            if(MGFire){
+                bullets.push({x: player.x, y: player.y, angle: player.turretAngle});
+            }
+            ctx.strokeStyle = "white";
+            ctx.fillStyle = "white";
+            bullets.forEach(e => {
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, 2, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+                e.x += bulletSpeed * Math.cos(Math.PI / 180 * e.angle);
+                e.y += bulletSpeed * Math.sin(Math.PI / 180 * e.angle);
+            });
+
+            // Turret
+            ctx.save();
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.fillStyle = "gray";
+            ctx.translate(player.x, player.y);
+            ctx.rotate(player.turretAngle * Math.PI / 180);
+            ctx.fillRect(-10, -8, 60, 16);
+            ctx.strokeRect(-10, -8, 60, 16);
+            ctx.beginPath();
+            ctx.arc(0, 0, 20, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+
+            //Spotlight
+            if(spotlightOn){
+                ctx.save();
+                ctx.strokeStyle = "yellow";
+                ctx.fillStyle = "rgba(255, 255, 0, 0.5)";
+                ctx.translate(player.x, player.y);
+                ctx.rotate(Math.atan2(mouseY-player.y, mouseX-player.x));
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0+300, 0+100);
+                ctx.lineTo(0+300, 0-100);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            //Dark object
+            ctx.fillStyle = "black"
+            ctx.fillRect(100,740,20,20);
+
+            //Grass
+            ctx.save();
+            ctx.strokeStyle = "green";
+            ctx.fillStyle = "green";
+            ctx.beginPath();
+            for(var i = 0; i < grassPoints.length; i++){
+                ctx.moveTo(grassPoints[i].a, 600);
+                ctx.quadraticCurveTo(grassPoints[i].b, 500, grassPoints[i].c, 600);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+
+            //Move grass
+            if(moveGrassDelay > 0){
+                moveGrassDelay--;
+            } else {
+                moveGrass = true;
+            }
+
+            if(moveGrass){
+                moveGrassStep++;
+                if(moveGrassStep < 50){
+                    grassPoints.forEach(e => {
+                        e.b-=1;
+                    });
+                }
+                if(moveGrassStep > 100 && moveGrassStep < 150){
+                    grassPoints.forEach(e => {
+                        e.b+=1;
+                    });
+                }
+                if(moveGrassStep >= 150){
+                    moveGrassStep = 0;
+                    moveGrass = false;
+                    moveGrassDelay = Math.floor(Math.random() * (1000 - 10)+10);
+                }
+            }
+
+            //Info display
+            ctx.fillStyle = "white";
+            ctx.fillText(`Gear ${player.speedDelay}`, 20, 20);
+
+        }
+
+        // https://stackoverflow.com/questions/9043805/test-if-two-lines-intersect-javascript-function
+
+        
+    </script>
+</body>
+</html>

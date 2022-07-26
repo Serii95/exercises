@@ -5,7 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style></style>
+    <style>
+        body {
+            color: rgb(243, 223, 156);
+        }
+    </style>
 </head>
 <body>
     <canvas id="c" width="1000" height="800"></canvas>
@@ -15,6 +19,7 @@
         const c = document.querySelector("#c");
         const ctx = c.getContext("2d");
         const FPS = 50;
+        const backgroundColor = "black";
         var mouseX;
         var mouseY;
         var gasPressed = false;
@@ -31,48 +36,144 @@
         var moveGrassStep = 0;
 
         const player = {
-            x: 300,
-            y: 300,
+            x: 0,
+            y: -1200,
+            hullX: -50,
+            hullY: -30,
+            hullWidth: 120,
+            hullHeight: 60,
             speed: 0,
-            speedDelay: 0,
             angle: 0,
             turretAngle: 0,
-            projectorAngle: 0
+            projectorAngle: 0,
+            inVehicle: true,
+            characterWidth: 40,
+            characterHeight: 80,
         };
+
+        const linePoints = [];
 
         const projectiles = [];
 
         const bullets = [];
 
         const grassPoints = [
-            {a: 650, b: 653, c: 656},
-            {a: 659, b: 662, c: 665},
-            {a: 668, b: 671, c: 674},
-            {a: 677, b: 680, c: 683},
-            {a: 686, b: 689, c: 692},
-            {a: 695, b: 698, c: 701},
+            {a: 150, b: 153, c: 156},
+            {a: 159, b: 162, c: 165},
+            {a: 168, b: 171, c: 174},
+            {a: 177, b: 180, c: 183},
+            {a: 186, b: 189, c: 192},
+            {a: 195, b: 198, c: 201},
         ];
 
-        const destructibles = [{x: 164, y:457, w: 70, h: 30, destroyed: false}];
+        const destructibles = [{x: -122, y: 260, w: 70, h: 30, destroyed: false}];
+
+        const rectangles = [
+            {x: 0, y: 1200, w: 934, h: 659, color: "rgb(205, 207, 71)"},
+            {x: -600, y: 2, w: 50, h: 70, color: "red"},
+            {x: 5000, y: 5000, w: 500, h: 700, color: "orange"},
+            {x: 1000, y: -7000, w: 2500, h: 105000, color: "rgb(219, 137, 43)"},
+        ];
+
+        const verticalRoads = [{
+            x: 2000,
+            y: -6000,
+            width: 460,
+            height:100000,
+            separatorsWidth:20,
+            separatorsHeight: 100,
+            color: "rgb(119, 129, 124)",
+            separatorsColor: "rgb(255, 255, 255)",
+        },
+        {
+            x: 2600,
+            y: -6000,
+            width: 460,
+            height:100000,
+            separatorsWidth:20,
+            separatorsHeight: 100,
+            color: "rgb(119, 129, 124)",
+            separatorsColor: "rgb(255, 255, 255)",
+        }];
+
+        const buildings = [
+            {x: 20, y: 1200, width: 300, height: 204, type: 1},
+            {x: 360, y: 1200, width: 300, height: 204, type: 2},
+            {x: 20, y: 1500, width: 300, height: 204, type: 3},
+        ];
+
+        // For the collors
+        const palette = {
+            roadColor: "rgb(119, 129, 124)",
+            roadSeparatorsColor: "rgb(255, 255, 255)",
+            type1RoofColor: "rgb(62, 64, 196)",
+            type1StrokeColor: "rgb(0, 0, 0)",
+            brickColor: "rgb(243, 102, 20)",
+            brickShadeColor: "rgb(241, 141, 82)",
+            brickGapColor: "rgb(80, 76, 73)",
+            windowColor: "rgb(55, 206, 198)",
+            windowGapColor: "rgb(0, 0, 0)",
+            windowShadeColor: "rgb(160, 238, 234)",
+            doorColor: "rgb(131, 79, 21)",
+            doorGapColor: "rgb(0, 0, 0)",
+            doorInnerColor: "rgb(100, 60, 15)",
+        };
+
+        const dimensions = {
+            buildingType1: {
+                roofXDisplacement: 0, 
+                roofYDisplacement: 0, 
+                roofWidth: 300, 
+                roofHeight: 100, 
+                roofTileAxis: 10,
+                wallXDisplacement: 11, 
+                wallYDisplacement: 100, 
+                wallWidth: 278, 
+                wallHeight: 104,
+                brickWidth: 30, 
+                brickHeight: 16,
+                brickGapSize: 4,
+                brickShadeGapSize: 5,
+                windowXDisplacement: 40, 
+                windowYDisplacement: 120,
+                windowWidth: 80,
+                windowHeight: 50,
+                windowGapSize: 3,
+                doorXDisplacement: 190,
+                doorYDisplacement: 124,
+                doorWidth: 60,
+                doorHeight: 80,
+                doorGapSize: 2,
+                doorInnerGapSize: 6,
+            },
+            buildingType2: {
+                windowXDisplacement: 180, 
+                windowYDisplacement: 120,
+            },
+        };
+
+        // Event Listeners
 
         document.addEventListener("keydown", keyDownFunction);
         document.addEventListener("keyup", keyUpFunction);
         document.addEventListener("mousemove", mouseMoveFunction);
+        document.addEventListener("click", mouseClickFunction);
 
-        setInterval(draw, 1000 / FPS);
+        // Game loop
+
+        setInterval(calculate, 1000 / FPS);
+
+        // Event Handlers
 
         function keyDownFunction(evt){
-            console.log(evt.keyCode);
+            // console.log(evt.keyCode);
             switch(evt.keyCode){
                 // 87 83 65 68 38 40
                 case 87:
-                    gasPressed = true;
+                    player.speed -= 1;
                 break;
                 case 83:
-                    if(player.speed > 0){
-                        player.speedDelay-=300;
-                        player.speed = Math.round(player.speedDelay / 100);
-                    }
+                    player.speed += 1;
                 break;
                 case 65:
                     turnLeft = true;
@@ -87,13 +188,16 @@
                     turnTurretRight = true;
                 break;
                 case 32:
-                    projectiles.push({x: player.x, y: player.y, angle: player.turretAngle});
+                    projectiles.push({x: c.width/2, y: c.height/2, angle: player.turretAngle});
                 break;
                 case 88:
                     MGFire = true;
                 break;
                 case 90:
                     spotlightOn = !spotlightOn;
+                break;
+                case 69:
+                    player.inVehicle = !player.inVehicle;
                 break;
             }
         }
@@ -126,19 +230,15 @@
             // console.log(evt.clientX, evt.clientY);
         }
 
-        function draw(){
-            if(gasPressed){
-                if(player.speedDelay < 3000){
-                    player.speedDelay+=100;
-                    player.speed = Math.round(player.speedDelay / 1000);
-                }
-            } 
-            if(!gasPressed){
-                if(player.speed > 0){
-                    player.speedDelay-=10;
-                    player.speed = Math.round(player.speedDelay / 1000);
-                }
-            }
+        function mouseClickFunction(evt){
+            console.log(evt);
+            linePoints.push({x: evt.clientX, y: evt.clientY});
+            console.log(`mouse X: ${evt.clientX} mouse Y: ${evt.clientY}`);
+        }
+
+        // Calculate Functions
+
+        function calculate(){
             if(turnLeft){
                 player.angle -= 2;
                 player.turretAngle -=2;
@@ -153,15 +253,92 @@
             if(turnTurretRight){
                 player.turretAngle +=2;
             }
+            moveGrassFunction();
 
+            player.x += player.speed * Math.cos(Math.PI / 180 * player.angle);
+            player.y += player.speed * Math.sin(Math.PI / 180 * player.angle);
+
+            draw();
+        }
+
+        // function checkCollides(x1, y1, w1, h1, x2, y2, w2, h2){
+
+        // }
+
+        function moveGrassFunction(){
+            if(moveGrassDelay > 0){
+                moveGrassDelay--;
+            } else {
+                moveGrass = true;
+            }
+
+            if(moveGrass){
+                moveGrassStep++;
+                if(moveGrassStep < 50){
+                    grassPoints.forEach(e => {
+                        e.b-=1;
+                    });
+                }
+                if(moveGrassStep > 100 && moveGrassStep < 150){
+                    grassPoints.forEach(e => {
+                        e.b+=1;
+                    });
+                }
+                if(moveGrassStep >= 150){
+                    moveGrassStep = 0;
+                    moveGrass = false;
+                    moveGrassDelay = Math.floor(Math.random() * (1000 - 10)+10);
+                }
+            }
+        }
+
+        // Draw functions
+
+        function draw(){
+            // Background
+            drawBackground();
+
+            // Objects that move relative to the player's position
+            ctx.save();
+            ctx.translate(player.x, player.y);
+            drawRects();
+            drawDistructibleObjects();
+            drawGrass();
+            verticalRoads.forEach(road => {
+                drawVerticalRoad(road);
+            });
+            buildings.forEach(building => {
+                drawBuilding(building);
+            });
+            ctx.restore();
+
+            // Objects that don't move relative to the player's position
+            drawInfo();
+            drawProjectiles();
+            drawPlayer();
+            // drawLine();
+
+            // Exception
+            ctx.save();
+            ctx.translate(player.x, player.y);
+            drawDarkObject();
+            ctx.restore();
+        }
+
+        function drawBackground(){
             ctx.clearRect(0, 0, c.width, c.height);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = backgroundColor;
             ctx.fillRect(0, 0, c.width, c.height);
+        }
 
-            ctx.fillStyle = "purple";
-            ctx.fillRect(400, 286, 934, 659);
+        function drawRects(){
+            rectangles.forEach(e => {
+                ctx.fillStyle = e.color;
+                ctx.fillRect(e.x, e.y, e.w, e.h);
+            });
+        }
 
-            // Destructible object
+        function drawDistructibleObjects(){
             destructibles.forEach(e => {
                 if(e.destroyed){
                     destructibles.shift();
@@ -171,44 +348,10 @@
                     ctx.fillRect(e.x, e.y, e.w, e.h);
                 }
             });
+        }
 
-
-            // Hull
-            ctx.save();
-            ctx.fillStyle = "gray";
-            ctx.translate(player.x, player.y);
-            ctx.rotate(player.angle * Math.PI / 180);
-            ctx.fillRect(-50, -30, 120, 60);
-            ctx.restore();
-
-            player.x += player.speed * Math.cos(Math.PI / 180 * player.angle);
-            player.y += player.speed * Math.sin(Math.PI / 180 * player.angle);
-
-            //Engine hatch
-            ctx.save();
-            ctx.fillStyle = "gray";
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            ctx.translate(player.x, player.y);
-            ctx.rotate(player.angle * Math.PI / 180);
-            ctx.fillRect(-44, -20, 20, 40);
-            ctx.strokeRect(-44, -20, 20, 40);
-            ctx.restore();
-
-            //Driver hath
-            ctx.save();
-            ctx.fillStyle = "gray";
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            ctx.translate(player.x, player.y);
-            ctx.rotate(player.angle * Math.PI / 180);
-            ctx.beginPath();
-            ctx.arc(50, -8, 10, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.stroke();
-            ctx.restore();
-
-            // Shots
+        function drawProjectiles(){
+            // Shells
             projectiles.forEach(e => {
                 if(e.destroyed){
                     projectiles.shift();
@@ -236,7 +379,7 @@
 
             //MG fire
             if(MGFire){
-                bullets.push({x: player.x, y: player.y, angle: player.turretAngle});
+                bullets.push({x: c.width/2, y: c.height/2, angle: player.turretAngle});
             }
             ctx.strokeStyle = "white";
             ctx.fillStyle = "white";
@@ -248,45 +391,14 @@
                 e.x += bulletSpeed * Math.cos(Math.PI / 180 * e.angle);
                 e.y += bulletSpeed * Math.sin(Math.PI / 180 * e.angle);
             });
+        }
 
-            // Turret
-            ctx.save();
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            ctx.fillStyle = "gray";
-            ctx.translate(player.x, player.y);
-            ctx.rotate(player.turretAngle * Math.PI / 180);
-            ctx.fillRect(-10, -8, 60, 16);
-            ctx.strokeRect(-10, -8, 60, 16);
-            ctx.beginPath();
-            ctx.arc(0, 0, 20, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.stroke();
-            ctx.restore();
-
-            //Spotlight
-            if(spotlightOn){
-                ctx.save();
-                ctx.strokeStyle = "yellow";
-                ctx.fillStyle = "rgba(255, 255, 0, 0.5)";
-                ctx.translate(player.x, player.y);
-                ctx.rotate(Math.atan2(mouseY-player.y, mouseX-player.x));
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(0+300, 0+100);
-                ctx.lineTo(0+300, 0-100);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.fill();
-                ctx.restore();
-            }
-
-            //Dark object
+        function drawDarkObject(){
             ctx.fillStyle = "black"
-            ctx.fillRect(100,740,20,20);
+            ctx.fillRect(-40,-40,20,20);
+        }
 
-            //Grass
-            ctx.save();
+        function drawGrass(){
             ctx.strokeStyle = "green";
             ctx.fillStyle = "green";
             ctx.beginPath();
@@ -297,43 +409,354 @@
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
-            ctx.restore();
+        }
 
-            //Move grass
-            if(moveGrassDelay > 0){
-                moveGrassDelay--;
+        function drawPlayer(){
+            if(player.inVehicle){
+                // Hull
+                ctx.save();
+                ctx.fillStyle = "rgb(40, 102, 35)";
+                ctx.translate(c.width/2, c.height/2);
+                ctx.rotate(player.angle * Math.PI / 180);
+                ctx.fillRect(player.hullX, player.hullY, player.hullWidth, player.hullHeight);
+                ctx.restore();
+
+                //Engine hatch
+                ctx.save();
+                ctx.fillStyle = "rgb(40, 102, 35)";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.translate(c.width/2, c.height/2);
+                ctx.rotate(player.angle * Math.PI / 180);
+                ctx.fillRect(-44, -20, 20, 40);
+                ctx.strokeRect(-44, -20, 20, 40);
+                ctx.restore();
+
+                //Driver hath
+                ctx.save();
+                ctx.fillStyle = "rgb(40, 102, 35)";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.translate(c.width/2, c.height/2);
+                ctx.rotate(player.angle * Math.PI / 180);
+                ctx.beginPath();
+                ctx.arc(50, -8, 10, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+
+                // Turret
+                ctx.save();
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 2;
+                ctx.fillStyle = "rgb(40, 102, 35)";
+                ctx.translate(c.width/2, c.height/2);
+                ctx.rotate(player.turretAngle * Math.PI / 180);
+                ctx.fillRect(-10, -8, 80, 16);
+                ctx.strokeRect(-10, -8, 80, 16);
+                ctx.beginPath();
+                ctx.arc(0, 0, 20, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+
+                //Spotlight
+                if(spotlightOn){
+                    ctx.save();
+                    ctx.strokeStyle = "yellow";
+                    ctx.fillStyle = "rgba(255, 255, 0, 0.5)";
+                    ctx.translate(c.width/2, c.height/2);
+                    ctx.rotate(Math.atan2(mouseY-c.height/2, mouseX-c.width/2));
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(0+300, 0+100);
+                    ctx.lineTo(0+300, 0-100);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.fill();
+                    ctx.restore();
+                }
             } else {
-                moveGrass = true;
-            }
+                ctx.save();
 
-            if(moveGrass){
-                moveGrassStep++;
-                if(moveGrassStep < 50){
-                    grassPoints.forEach(e => {
-                        e.b-=1;
-                    });
-                }
-                if(moveGrassStep > 100 && moveGrassStep < 150){
-                    grassPoints.forEach(e => {
-                        e.b+=1;
-                    });
-                }
-                if(moveGrassStep >= 150){
-                    moveGrassStep = 0;
-                    moveGrass = false;
-                    moveGrassDelay = Math.floor(Math.random() * (1000 - 10)+10);
-                }
-            }
+                // ctx.fillStyle = "rgb(9, 15, 99)";
+                // ctx.strokeStyle = "rgb(0, 0, 0)";
+                // ctx.translate(c.width/2, c.height/2);
+                // ctx.rotate(player.angle * Math.PI / 180);
+                // // ctx.beginPath();
+                // // ctx.arc(0, 0, 15, 0, Math.PI * 2);
+                // // ctx.fill();
+                // // ctx.closePath();
+                // ctx.fillRect(0, 0, 50, 90);
 
-            //Info display
-            ctx.fillStyle = "white";
-            ctx.fillText(`Gear ${player.speedDelay}`, 20, 20);
+                // // Head
+                // ctx.fillStyle = "rgb(243, 223, 156)";
+                // ctx.strokeStyle = "rgb(0, 0, 0)";
+                // ctx.beginPath();
+                // ctx.arc(25, 10, 10, 0, Math.PI * 2);
+                // ctx.arc(25, 13, 10, 0, Math.PI * 2);
+                // ctx.arc(25, 15, 10, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // // Shoulders
+                // // ctx.fillStyle = "yellow";
+                // ctx.beginPath();
+                // ctx.arc(15, 35, 10, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // ctx.beginPath();
+                // ctx.arc(35, 35, 10, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // // Chest
+                // // ctx.fillStyle = "red";
+                // ctx.fillRect(15, 25, 20, 10);
+                // ctx.strokeRect(15, 25, 20, 10);
+
+                // // Waist
+                // // ctx.fillStyle = "green";
+                // ctx.fillRect(15, 45, 20, 10);
+                // ctx.strokeRect(15, 45, 20, 10);
+
+                // // Abs
+                // // ctx.fillStyle = "yellow";
+                // ctx.fillRect(15, 35, 20, 10);
+                // ctx.strokeRect(15, 35, 20, 10);
+
+                // // Hands
+                // // ctx.fillStyle = "red";
+                // ctx.beginPath();
+                // ctx.arc(10, 55, 5, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // ctx.beginPath();
+                // ctx.arc(40, 55, 5, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // // Arms
+                // // ctx.fillStyle = "green";
+                // ctx.fillRect(5, 35, 10, 20);
+                // ctx.strokeRect(5, 35, 10, 20);
+                // ctx.fillRect(35, 35, 10, 20);
+                // ctx.strokeRect(35, 35, 10, 20);
+
+                // // Upper legs
+                // // ctx.fillStyle = "yellow";
+                // ctx.beginPath();
+                // ctx.arc(19, 59, 5, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // ctx.beginPath();
+                // ctx.arc(32, 59, 5, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // // Feet
+                // // ctx.fillStyle = "yellow";
+                // ctx.beginPath();
+                // ctx.arc(19, 80, 5, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // ctx.beginPath();
+                // ctx.arc(32, 80, 5, 0, Math.PI * 2);
+                // ctx.fill();
+                // ctx.stroke();
+                // ctx.closePath();
+
+                // // Legs
+                // // ctx.fillStyle = "red";
+                // ctx.fillRect(14, 60, 10, 20);
+                // ctx.strokeRect(14, 60, 10, 20);
+                // ctx.fillRect(27, 60, 10, 20);
+                // ctx.strokeRect(27, 60, 10, 20);
+
+                ctx.restore(); 
+            }
 
         }
 
-        // https://stackoverflow.com/questions/9043805/test-if-two-lines-intersect-javascript-function
+        function drawInfo(){
+            ctx.fillStyle = "white";
+            ctx.fillText(`Coords X: ${-Math.floor(player.x - c.width/2)} Y: ${-Math.floor(player.y - c.height/2)}`, 20, 20);
+            ctx.fillText(`Speed: ${-player.speed}`, 20, 30);
+        }
 
+        // Roads
+        function drawVerticalRoad(road){
+            ctx.fillStyle = palette.roadColor;
+            ctx.fillRect(road.x, road.y, road.width, road.height);
+            ctx.fillStyle = palette.roadSeparatorsColor;
+            ctx.fillRect(road.x, road.y, road.separatorsWidth, road.height);
+            ctx.fillRect(road.x+road.width-road.separatorsWidth, road.y, road.separatorsWidth, road.height);
+
+            for(var i = road.y; i < road.y + road.height; i+= road.separatorsHeight * 2){
+                ctx.fillRect(road.x + road.width/2 - road.separatorsWidth/2, i, road.separatorsWidth, road.separatorsHeight);
+            }
+        }
+
+        // Buildings
+        function drawType1Roof(x, y, dimensions){
+            ctx.fillStyle = palette.type1RoofColor;
+            ctx.strokeStyle = palette.type1StrokeColor;
+            ctx.fillRect(x, y, dimensions.roofWidth, dimensions.roofHeight);
+
+            for(var i = x + dimensions.roofWidth - dimensions.roofTileAxis; i > x; i-= dimensions.roofTileAxis * 2){
+                for(var j = y + dimensions.roofHeight; j > y; j-= dimensions.roofTileAxis){
+                    ctx.beginPath();
+                    ctx.arc(i, j, dimensions.roofTileAxis, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.closePath();
+                }
+            }
+
+            ctx.fillRect(x, y, dimensions.roofWidth, dimensions.roofTileAxis);
+            ctx.strokeRect(x, y, dimensions.roofWidth, dimensions.roofTileAxis);
+        }
+
+        function drawBrickWall(x, y, dimensions){
+            ctx.fillStyle = palette.brickGapColor;
+            ctx.fillRect(x, y, dimensions.wallWidth, dimensions.wallHeight);
+
+            for(var i = x + dimensions.brickGapSize; i + dimensions.brickWidth < x + dimensions.wallWidth; i += dimensions.brickWidth + dimensions.brickGapSize){
+                for(var j = y + dimensions.brickGapSize; j + dimensions.brickHeight < y + dimensions.wallHeight; j += dimensions.brickHeight + dimensions.brickGapSize){
+                    ctx.fillStyle = palette.brickShadeColor;
+                    ctx.fillRect(i, j, dimensions.brickWidth, dimensions.brickHeight);
+                    ctx.fillStyle = palette.brickColor;
+                    ctx.fillRect(i, j, dimensions.brickWidth - dimensions.brickShadeGapSize, dimensions.brickHeight - dimensions.brickShadeGapSize);
+                }
+            }
+        }
+
+        function drawPlainWindow(x, y, dimensions){
+            ctx.fillStyle = palette.windowGapColor;
+            ctx.fillRect(x, y, dimensions.windowWidth, dimensions.windowHeight);
+            ctx.fillStyle = palette.windowColor;
+            
+            ctx.fillRect(x + dimensions.windowGapSize, 
+            y + dimensions.windowGapSize, 
+            dimensions.windowWidth / 2 - dimensions.windowGapSize, 
+            dimensions.windowHeight / 2 - dimensions.windowGapSize);
+
+            ctx.fillRect(x + dimensions.windowGapSize + dimensions.windowWidth / 2, 
+            y + dimensions.windowGapSize, 
+            dimensions.windowWidth / 2 - dimensions.windowGapSize *2, 
+            dimensions.windowHeight / 2 - dimensions.windowGapSize);
+            
+            ctx.fillRect(x + dimensions.windowGapSize, 
+            y + dimensions.windowGapSize + dimensions.windowHeight / 2, 
+            dimensions.windowWidth - dimensions.windowGapSize * 2, 
+            dimensions.windowHeight / 2 - dimensions.windowGapSize * 2);
+
+            ctx.fillStyle = palette.windowShadeColor;
+            ctx.strokeStyle = palette.windowShadeColor;
+
+            ctx.beginPath();
+            ctx.moveTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4, y + dimensions.windowGapSize + 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 - 8, y + dimensions.windowHeight / 2 - 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4, y + dimensions.windowHeight / 2 - 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 + 10, y + dimensions.windowGapSize + 1);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.moveTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 + dimensions.windowWidth / 2, y + dimensions.windowGapSize + 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 - 8 + dimensions.windowWidth / 2, y + dimensions.windowHeight / 2 - 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 + dimensions.windowWidth / 2, y + dimensions.windowHeight / 2 - 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 + 8 + dimensions.windowWidth / 2, y + dimensions.windowGapSize + 1);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.moveTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4, y + dimensions.windowGapSize + dimensions.windowHeight / 2 + 1);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 - 8, y + dimensions.windowHeight / 2 - 1 + dimensions.windowHeight / 2 - 3);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4, y + dimensions.windowHeight / 2 - 1 + dimensions.windowHeight / 2 - 3);
+            ctx.lineTo(x + dimensions.windowGapSize + dimensions.windowWidth / 4 + 10, y + dimensions.windowGapSize + dimensions.windowHeight / 2 + 1);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawPlainDoor(x, y, dimensions){
+            ctx.fillStyle = palette.doorGapColor;
+            ctx.fillRect(x, y, dimensions. doorWidth, dimensions.doorHeight);
+            ctx.fillStyle = palette.doorColor;
+            ctx.fillRect(x + dimensions.doorGapSize, 
+            y  + dimensions.doorGapSize, 
+            dimensions. doorWidth - dimensions.doorGapSize * 2, 
+            dimensions.doorHeight - dimensions.doorGapSize * 2);
+            ctx.fillStyle = palette.doorInnerColor;
+            ctx.fillRect(x + dimensions.doorGapSize + dimensions.doorInnerGapSize, 
+            y  + dimensions.doorGapSize + dimensions.doorInnerGapSize, 
+            dimensions. doorWidth - dimensions.doorGapSize * 2 - dimensions.doorInnerGapSize * 2, 
+            dimensions.doorHeight - dimensions.doorGapSize * 2 - dimensions.doorInnerGapSize * 2);
+        }
+
+        function drawBuilding(building){
+            if(building.type === 1){
+                drawBrickWall(building.x + dimensions.buildingType1.wallXDisplacement,
+                building.y + dimensions.buildingType1.wallYDisplacement, 
+                dimensions.buildingType1);
+                drawType1Roof(building.x + dimensions.buildingType1.roofXDisplacement, 
+                building.y + dimensions.buildingType1.roofYDisplacement, 
+                dimensions.buildingType1);
+                drawPlainWindow(building.x + dimensions.buildingType1.windowXDisplacement, building.y + dimensions.buildingType1.windowYDisplacement, dimensions.buildingType1);
+                drawPlainDoor(building.x + dimensions.buildingType1.doorXDisplacement, building.y + dimensions.buildingType1.doorYDisplacement, dimensions.buildingType1);
+            } if(building.type === 2){
+                drawBrickWall(building.x + dimensions.buildingType1.wallXDisplacement,
+                building.y + dimensions.buildingType1.wallYDisplacement, 
+                dimensions.buildingType1);
+                drawType1Roof(building.x + dimensions.buildingType1.roofXDisplacement, 
+                building.y + dimensions.buildingType1.roofYDisplacement, 
+                dimensions.buildingType1);
+                drawPlainWindow(building.x + dimensions.buildingType1.windowXDisplacement, building.y + dimensions.buildingType1.windowYDisplacement, dimensions.buildingType1);
+                drawPlainWindow(building.x + dimensions.buildingType2.windowXDisplacement, building.y + dimensions.buildingType2.windowYDisplacement, dimensions.buildingType1);
+            } if(building.type === 3){
+                drawBrickWall(building.x + dimensions.buildingType1.wallXDisplacement,
+                building.y + dimensions.buildingType1.wallYDisplacement, 
+                dimensions.buildingType1);
+                drawType1Roof(building.x + dimensions.buildingType1.roofXDisplacement, 
+                building.y + dimensions.buildingType1.roofYDisplacement, 
+                dimensions.buildingType1);
+            }
+        }
         
+        function drawLine(){
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "rgb(255, 255, 255)";
+            ctx.beginPath();
+
+            for(const point in linePoints){
+                if(point === 0){
+                    ctx.moveTo(linePoints[point].x, linePoints[point].y);
+                } else {
+                    ctx.lineTo(linePoints[point].x, linePoints[point].y);
+                }
+            }          
+            ctx.stroke();
+        }
+
+        // https://stackoverflow.com/questions/9043805/test-if-two-lines-intersect-javascript-function
     </script>
 </body>
 </html>

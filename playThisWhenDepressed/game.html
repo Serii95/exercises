@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Huiocument</title>
+    <style>
+        body {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c" width="500" height="500"></canvas>
+
+    <script>
+        const c = document.querySelector("#c");
+        const ctx = c.getContext("2d");
+        const FPS = 50;
+        const note = new Audio("./musicNote.mp3");
+        let gameInterval = setInterval(calculate, 1000 / FPS);
+        let Instructions = true;
+        let mute = false;
+        let score = 0;
+        let energy = 100;
+        let energyCountDownPoints = 50;
+        let food = 0;
+        let cubeX = c.width;
+        let foodBlock = false;
+        let foodTimer = 0;
+        let hiredWorker = false;
+
+        document.addEventListener("keydown", key => keyDownHandler(key));
+        document.addEventListener("touchstart", () => tapHandler());
+
+        function keyDownHandler(key){
+            // console.log(key.keyCode);
+
+            if(key.keyCode === 32 && gameInterval == null){
+                gameInterval = setInterval(calculate, 1000 / FPS);
+            }
+            else if(key.keyCode === 32 && Instructions){
+                Instructions = false;
+            } else if(key.keyCode === 32 && cubeX <= 60){
+                alterScore();
+            } else if(key.keyCode === 77){
+                mute = !mute;
+            }
+        };
+
+        function tapHandler(){
+            if(gameInterval == null){
+                gameInterval = setInterval(calculate, 1000 / FPS);
+            } else if(Instructions){
+                Instructions = false;
+            } else if(cubeX <= 60){
+                alterScore();
+            }
+        };
+
+        function calculate(){
+            if(cubeX > 60){
+                cubeX-=20;
+            } else if(cubeX <= 60){
+                if(foodBlock){
+                    if(foodTimer > 0){
+                        foodTimer--;
+                    } else {
+                        foodBlock = false;
+                        cubeX = c.width;
+                    }
+                }
+            }
+
+            if(energyCountDownPoints > 0){
+                energyCountDownPoints--;
+            } else {
+                energy--;
+                energyCountDownPoints = 50;
+            }
+
+            draw();
+        };
+
+        function alterScore(){
+            if(foodBlock){
+                foodBlock = false;
+                food++;
+                score -= 50;
+            } else {
+                let tmp = Math.floor(Math.random() * (10 - (-70))+ (-70));
+                if(tmp < 0){
+                    tmp = 0;
+                }
+                score += tmp;
+            }
+            cubeX = c.width;
+
+            if(score >= 50){
+                let temp = Math.floor(Math.random() * (100 - 0) + 0);
+                if(temp > 50 && temp < 60 && !foodBlock){
+                    foodBlock = true;
+                    foodTimer = 100;
+                }
+            }
+
+            if(!mute){
+                note.play();
+            }
+        }
+
+        function draw(){
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, c.width, c.height);
+
+            if(Instructions){
+                ctx.fillStyle = "white";
+                ctx.font = '20px serif';
+                ctx.fillText("Instructions:", c.width / 4, 230);
+                ctx.fillText("Space or tap", c.width / 4, 260);
+            } else if(energy <= 0){
+                clearInterval(gameInterval);
+                gameInterval = null;
+                ctx.fillStyle = "white";
+                ctx.font = '20px serif';
+                ctx.fillText("The day is over", c.width / 4, 230);
+
+                if(food <= 0){
+                    ctx.fillText("You didn't manage to get any food", c.width / 4, 260);
+                    ctx.fillText("You are dead", c.width / 4, 290);
+                } else {
+                    ctx.fillText("You eat the food you managed to get", c.width / 4, 260);
+                    food--;
+                    ctx.fillText("You pay the daily tax 4/10th", c.width / 4, 290);
+                    ctx.fillText(`Previous score ${score}`, c.width / 4, 320);
+                    let tmp = Math.floor(score / 10 );
+                    score = Math.floor(score - tmp * 4);
+                    ctx.fillText(`Current score ${score}`, c.width / 4, 350);
+                    ctx.fillText(`Glory to the box house`, c.width / 4, 380);
+                    energy = 100;
+                }
+            } else {
+                ctx.clearRect(0, 0, c.width, c.height);
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, 0, c.width, c.height);
+
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(0, 400);
+                ctx.lineTo(c.width, 400);
+                ctx.stroke();
+                ctx.closePath();
+
+                ctx.fillStyle = "white";
+                ctx.fillRect(10, 350, 50, 50);
+                
+                if (foodBlock) {
+                    ctx.fillRect(cubeX, 350, 50, 50);
+                } else {
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(cubeX, 350, 50, 50);
+                }
+
+                ctx.font = '30px serif';
+                ctx.fillText(`Score: ${score} Food: ${food} Energy: ${energy}`, 10, 30);
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navbar-vertical-displacement: 54px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Lato", sans-serif
+}
+
+nav {
+    height: 59px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    /* height: fit-content; */
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+nav a:hover, #navbar-icon-container:hover {
+    background-color: #CCC;
+    color: #000;
+}
+
+#navbar-container {
+    background-color: #000;
+    height: 100%;
+}
+
+#navbar-content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#navbar-content div {
+    margin: 0;
+    padding: 0;
+    color: #FFF;
+}
+
+.navbar-button {
+    display: none;
+}
+
+nav a {
+    display: inline-block;
+    padding: 15px 25px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+#navbar-icon-container {
+    margin: 0;
+    padding: 0;
+    width: 74px;
+    text-align: center;
+}
+
+#navbar-search-icon {
+    display: none;
+}
+
+#menu-tag {
+    padding: 10px 25px 0 25px;
+    color: #FFF;
+}
+
+.dropdown-content {
+    width: 100%;
+}
+
+#nav-small-screen-dropdown {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+#container {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: var(--navbar-vertical-displacement);
+    z-index: 0;
+}
+
+#slideshow {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* position: relative;
+    top: var(--navbar-vertical-displacement); */
+}
+
+.slideshow-element {
+    position: relative;
+    /* background-color: purple; */
+}
+
+.hide {
+    display: none;
+}
+
+.slideshow-image {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+}
+
+.slideshow-image-captions {
+    display: none;
+}
+
+main {
+    text-align: center;
+}
+
+.title {
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 100;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-style: italic;
+    color: rgb(121, 116, 116);
+}
+
+#main-paragraph {
+    display: inline-block;
+    max-width: 768px;
+    text-align: left;
+    padding: 0 20px;
+    line-height: 25px;
+}
+
+/* #member-figures-container {
+
+} */
+
+#member-figures-container {
+    margin: 20px 0;
+}
+
+#member-figures-container figure {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#member-figures-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+#member-figures-container figcaption {
+    margin: 20px 0;
+}
+
+#tour-dates {
+    margin: 0;
+    padding: 40px 10px;
+    text-align: center;
+    background-color: #000;
+}
+
+.section-title {
+    letter-spacing: 4px;
+    font-size: 28px;
+}
+
+.section-subtitle {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+#list-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+#list-container ul{
+    margin: 0 10px;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+    max-width: 768px;
+}
+
+#list-container ul li{
+    display: block;
+    margin: 0;
+    border-bottom: 1px solid #CCC;
+    padding: 8px 16px;
+    background-color: #FFF;
+    color: #757575;
+    text-align: left;
+}
+
+.white-font {
+    color: #FFF;
+}
+
+.sold-out {
+    display: inline-block;
+    margin-left: 16px;
+    width: 70px; 
+    height: 24px;
+    background-color: #f44336;
+    text-align: center;
+}
+
+.remaining-number {
+    float: right;
+    margin-right: 16px;
+    border-radius: 50%;
+    padding: 2px 8px 2px 6px;
+    background-color: #000;
+}
+
+.tour-dates-figure {
+    margin: 10px 6px;
+    background-color: #FFF;
+}
+
+.tour-dates-figure-image {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    /* filter: brightness(0.5); */
+}
+
+.tour-dates-figure-image:hover {
+    filter: brightness(0.5);
+    /* background-color: aqua; */
+}
+
+.tour-dates-figure-captions {
+    margin: 15px;
+    padding: 0;
+    text-align: left;
+}
+
+.tour-dates-figure-title {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.tour-dates-figure-subtitle {
+    margin: 15px 0;
+    color: rgb(121, 116, 116);
+}
+
+.tour-dates-figure-button {
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 7%;
+    padding: 8px 16px;
+    width: 120px;
+    height: 40px;
+    background-color: #000;
+    font-size: 16px;
+}
+
+.tour-dates-figure-button:hover {
+    border: 2px solid #000;
+    background-color: #CCC;
+    color: #000;
+}
+
+#contacts {
+    padding: 64px 10px;
+    text-align: center;
+    overflow: auto;
+}
+
+address {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.adress-detail {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    font-style: normal;
+    font-size: 18px;
+}
+
+.adress-icon {
+    margin-right: 10px;
+}
+
+.contacts-main-input {
+    border: 1px solid #CCC;
+    padding: 8px;
+    width: 100%;
+    height: 40px;
+}
+
+.contacts-message-input {
+    margin-top: 8px;
+}
+
+.contacts-submit {
+    margin: 16px 0;
+    border: none;
+    padding: 8px;
+    max-width: 80px;
+    float: right;
+    background-color: #000;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.contacts-submit:hover {
+    background-color: #CCC;
+    color: #000;
+}
+
+#map {
+    width: 100%;
+}
+
+#map img {
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    filter: grayscale(0.5);
+}
+
+footer {
+    padding: 64px 16px;
+    height: 213px;
+    text-align: center;
+}
+
+footer p, footer a {
+    color: #757575;
+}
+
+.footer-icon {
+    width: 24px;
+    height: 24px;
+    fill: #757575;
+}
+
+@media only screen and (min-width: 601px) {
+    #navbar-buttons-container {
+
+    }
+    
+    .navbar-home-button, .navbar-button {
+        display: inline-block;
+    }
+
+    .navbar-button:hover #carret-down {
+        fill: #000;
+    }
+
+    #carret-down {
+        width: 15px;
+        height: 15px;
+        fill: #FFF;
+    }
+
+    #navbar-icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #navbar-icon-container:hover {
+        background-color: #f44336;
+    }
+
+    #navbar-dropdown-button {
+        display: none;
+    }
+
+    #navbar-search-icon {
+        display: inline;
+        width: 15px;
+        height: 15px;
+        fill: #FFF;
+    }
+
+    #nav-big-screen-dropdown {
+        display: none;
+        margin: 0;
+        padding: 0;
+        width: 140px;
+        position: absolute;
+        left: 425px;
+        text-transform: capitalize;
+        background-color: #FFF;
+    }
+
+    #nav-big-screen-dropdown a {
+        color: #000;
+    }
+
+    #nav-big-screen-dropdown:hover
+
+    .slideshow-image-captions {
+        display: block;
+        position: absolute;
+        bottom: 20px;
+        color: #FFF;
+        width: 100%;
+        text-align: center;
+    }
+
+    .captions-title {
+        font-weight: 100;
+    }
+
+    .captions-subtitle {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    #member-figures-container {
+        /* max-width: 768px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #member-figures {
+        width: 768px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+
+    #member-figures-container img {
+        max-width: 153px;
+        height: auto;
+    }
+
+    #tour-dates-figures-container {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+    }
+
+    .tour-dates-figure {
+        margin: 0 8px;
+        max-width: 245px;
+        max-height: 389px;
+    }
+
+    #contacts-container {
+        margin: 60px 0;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+    }
+
+    #contacts-inner-container {
+        /* border: 1px solid black; */
+        width: 760px;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+
+    #contacts-container address {
+        margin: 0;
+        /* width: 500px; */
+        width: 50%;
+        display: inline-block;
+    }
+
+    #contacts-container form {
+        /* width: 300px; */
+        width: 50%;
+        /* display: inline-block; */
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        column-gap: 18px;
+    }
+
+    #name-input {
+        grid-column: 1 / 3;
+    }
+
+    #email-input {
+        grid-column: 3 / 5;
+    }
+
+    #text-input {
+        grid-area: 2 / 1 / 2 / 5;
+    }
+
+    #submit-input {
+        grid-area: 3 / 4 / 3 / 5;
+    }
+}

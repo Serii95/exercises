@@ -1,0 +1,37 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    outline: 0;
+    border: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background-color: transparent;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, rgb(6, 6, 150),  rgb(43, 127, 223), rgb(255, 255, 255), rgb(43, 127, 223), rgb(6, 6, 150));
+    overflow: hidden;
+}
+
+#old-man-image {
+    position: absolute;
+    top: 40%;
+    left: 30%;
+}
+
+#boy-image {
+    height: 500px;
+    width: auto;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+}
+
+#fog {
+    height: 100vh;
+    z-index: 1;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 1) )
+}

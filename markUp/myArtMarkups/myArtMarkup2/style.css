@@ -1,0 +1,70 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    outline: 0;
+    border: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background-color: transparent;
+    box-sizing: border-box;
+}
+
+.sample-div {
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to right, #cc273c, #f56b00 30vw 70vw, #cc273c);
+}
+
+#sun {
+    border-radius: 50%;
+    width: 25%;
+    height: 25%;
+    z-index: 1;
+    position: absolute;
+    top: 37%;
+    left: 37%;
+    background-color: #f72955;
+}
+
+#water {
+    width: 100%;
+    height: 50%;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    background-color: #1c5294;
+}
+
+#wrippled-water {
+    width: 25%;
+    height: 50%;
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 37%;
+    /* background-image: repeating-linear-gradient(#1c5294, #336eb6 10%); */
+    background-image: repeating-radial-gradient(circle at 50% -20%, #1c5294, #336eb6 10%);
+}
+
+#sky-color-1 {
+    background-color: #cc273c;
+}
+
+#sky-color-2 {
+    background-color: #f56b00;
+}
+
+#sun-color {
+    background-color: #f72955;
+}
+
+#water-color {
+    background-color: #102c4e;
+}

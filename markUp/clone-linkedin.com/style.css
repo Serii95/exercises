@@ -91,14 +91,7 @@ header {
     font-size: 14px;
 }
 
-.nav-link-container {
-    margin: 0 2px;
-    min-width: 48px;
-    width: 48px;
-    height: 54px;
-}
-
-.nav-avatar-icon-container {
+.nav-link-container, .nav-avatar-icon-container, #nav-menu-icon-container {
     margin: 0 2px;
     min-width: 48px;
     width: 48px;
@@ -107,14 +100,6 @@ header {
 
 #nav-avatar-icon {
     border-radius: 50%;
-}
-
-#nav-menu-icon-container {
-    margin: 0 2px;
-    min-width: 48px;
-    width: 48px;
-    height: 54px;
-    /* background-color: rgb(235, 179, 28); */
 }
 
 #nav-vertical-dots {
@@ -173,10 +158,7 @@ header {
 #profile-info {
     margin-bottom: 8px;
     border: 1px solid #CCC;
-    /* border-radius: 10px; */
     width: 100%;
-    /* max-width: var(--standart-mobile-max-width); */
-    /* height: 169px; */
     height: fit-content;
     overflow: hidden;
 }
@@ -208,7 +190,6 @@ header {
 
 #profile-info-main-content {
     padding: 22px 12px 16px 12px;
-    /* padding-bottom: 0; */
     width: 100%;
     height: fit-content;
     background-color: #FFF;
@@ -231,7 +212,6 @@ header {
 
 .profile-info-sub-item-container {
     padding: 12px;
-    /* z-index: 1; */
     border-top: 1px solid #CCC;
     width: 100%;
     height: fit-content;
@@ -263,9 +243,7 @@ header {
 /* Show more option */
 #show-more {
     margin-bottom: 8px;
-    /* border-radius: 10px; */
     width: 100%;
-    /* max-width: var(--standart-mobile-max-width); */
     height: 32px;
     display: flex;
     flex-direction: row;
@@ -388,7 +366,6 @@ header {
 #start-a-post-input {
     margin: 4px 0;
     border: 1px solid #CCC;
-    /* border-radius: 10%; */
     border-radius: 35px;
     padding: 10px 8px 10px 16px;
     width: 100%;
@@ -510,11 +487,8 @@ header {
 }
 
 .post-reacted-container {
-    /* margin: 0; */
     margin: 0 16px;
     border-bottom: 1px solid #CCC;
-    /* padding-right: 16px;
-    width: 100%; */
     padding: 8px 0;
     height: 41px;
     display: flex;
@@ -581,7 +555,6 @@ header {
 
 .post-main-title {
     margin-left: 8px;
-    /* display: flex; */
 }
 
 .post-main-name {
@@ -644,7 +617,6 @@ header {
 
 .post-description {
     margin: 0 16px;
-    /* height: 61px; */
     height: 56px;
     max-height: 61px;
     text-align: left;
@@ -652,8 +624,7 @@ header {
     white-space: pre-line;
     text-overflow: ellipsis;
 }
-/* 178 characters limit */
-/* text-overflow: ellipsis; */
+
 .post-content {
     width: 100%;
     height: auto;
@@ -680,7 +651,6 @@ header {
     margin-right: -3px;
     border-radius: 50%;
     width: 18px;
-    /* background-color: red; */
 }
 
 .post-reactions-icon {
@@ -730,14 +700,245 @@ header {
 
 
 /* Right aside */
-/* #right-aside {
+#right-aside {
     width: 100%;
     max-width: var(--standart-mobile-max-width);
-} */
+    position: sticky;
+}
 
 
 
-/* Common styles */
+/* Recommendations section */
+#recommendations-container {
+    margin-bottom: 8px;
+    border: 1px solid #CCC;
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #FFF;
+}
+
+#recommendations-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#recommendations-header span {
+    font-weight: bold;
+}
+
+#recommendations-header svg {
+    width: 16px;
+    height: 16px;
+    fill: #666666;
+}
+
+.reccomendation {
+    margin: 12px 0;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.reccomendation-image {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+}
+
+.reccomendation-content {
+    margin-left: 12px;
+}
+
+.reccomendation-content p {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.reccomendation-content span {
+    font-size: 14px;
+    color: #666666;
+}
+
+.reccomendation-follow-option {
+    margin-top: 4px;
+    border: 1px solid #CCC;
+    border-radius: 14px;
+    padding: 6px 16px;
+    width: 105px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.reccomendation-follow-option:hover {
+    outline: 2px solid #666666;
+    background-color: #CCC;
+}
+
+.reccomendation-follow-option svg{
+    margin-right: 4px;
+    width: 16px;
+    height: 16px;
+    fill: #666666;
+}
+
+.reccomendation-follow-option span{
+    font-size: 16px;
+    font-weight: bold;
+    color: #666666;
+}
+
+#recommendations-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#recommendations-footer-container {
+    padding: 2px 8px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+#recommendations-footer-container:hover {
+    border-radius: 4px;
+    background-color: #ebebeb;
+}
+
+#recommendations-footer-container span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #666666;
+}
+
+#recommendations-footer-container svg {
+    width: 16px;
+    height: 16px;
+    fill: #666666;
+}
+
+
+
+/* Adds section */
+#ad-container {
+    border: 1px solid #CCC;
+    border-radius: 10px;
+    padding: 10px 7px;
+    width: 100%;
+    background-color: #FFF;
+    overflow: hidden;
+}
+
+#ad-link {
+    width: 100%;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#ad-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#ad-header span {
+    margin-right: 8px;
+    font-size: 12px;
+    color: #000;
+}
+
+#ad-header svg {
+    width: 16px;
+    height: 16px;
+    fill: #666666;
+}
+
+#ad-subtitle {
+    width: 276px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    color: #666666;
+}
+
+#ad-icons {
+    width: 162px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#ad-avatar-image {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+
+#ad-logo-icon {
+    width: 60px;
+    height: 60px;
+    fill: #0a66c2;
+}
+
+#ad-label {
+    margin: 10px 0;
+    width: 276px;
+    text-align: center;
+    font-size: 14px;
+    color: #666666;
+}
+
+#ad-button {
+    border: 1px solid #0a66c2;
+    border-radius: 12px;
+    padding: 7px 16px;
+    width: 113px;
+    height: 32px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #0a66c2;
+}
+
+
+
+/* Links section */
+#category-links {
+    margin: 16px 24px;
+    width: 267px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#category-links a {
+    margin: 4px 8px;
+    font-size: 12px;
+    color: #666666;
+}
+
+#category-links a:hover {
+    text-decoration: underline;
+    color: #0a66c2;
+}
+
+
+
+/* Multiply used styles */
 .nav-link {
     width: 100%;
     height: 100%;
@@ -787,6 +988,7 @@ header {
 
 
 /* Media queries */
+
 /* Menu changes, try premium version link appears */
 @media only screen and (min-width: 528px) {
     #nav-menu-icon-container {
@@ -809,14 +1011,14 @@ header {
 }
 
 /* The max-width of the left aside sections, after this width they are assigned 
-with border radius */
+border radius */
 @media only screen and (min-width: 576px) {
     .rounded-corners {
         border-radius: 10px;
     }
 }
 
-/* Nav icon dimensions change */
+/* Nav icon size change */
 @media only screen and (min-width: 748px) {
     .nav-link-container {
         margin: 0 12px;
@@ -839,8 +1041,8 @@ with border radius */
     }
 }
 
-/* After this width left-aside and main content stop being 100% wide and displayed 
-in a single column */
+/* After this width left-aside and main contents stop being 100% wide and are 
+displayed in two columns */
 @media only screen and (min-width: 768px) {
     #main-container {
         display: flex;
@@ -859,7 +1061,6 @@ in a single column */
     }
 
     #profile-info {
-        /* height: 332px; */
         height: fit-content;
     }
 
@@ -874,9 +1075,14 @@ in a single column */
     #main-content {
         width: 540px;
     }
+
+    #right-aside {
+        display: none;
+        width: 540px;
+    }
 }
 
-/* Nav labels appear */
+/* Navbar icon labels appear */
 @media only screen and (min-width: 854px) {
     #nav-search-icon-container {
         min-width: 68px;
@@ -908,17 +1114,24 @@ in a single column */
 }
 
 /* The right-aside is displayed in the same row with left aside and main */
-/* @media only screen and (min-width: 1025px) {
+@media only screen and (min-width: 1025px) {
     #left-aside {
+        margin-right: 21px;
         width: 180px;
     }
 
     #main-content {
         width: 432px;
     }
-} */
 
-/* Searchbar appears */
+    #right-aside {
+        display: block;
+        margin-left: 21px;
+        width: 300px;
+    }
+}
+
+/* Navbar searchbar appears */
 @media only screen and (min-width: 1025px) {
     #nav-search-icon-container {
         display: none;
@@ -932,7 +1145,7 @@ in a single column */
     }
 }
 
-/* header/searchbar stops increasing in size */
+/* Navbar searchbar stops increasing in size */
 @media only screen and (min-width: 1128px) {
     header {
         display: flex;
@@ -940,5 +1153,17 @@ in a single column */
     }
 }
 
-/* Things to do: */
-/* Finish the work with profile-info for big screens resolutions */
+/* The width of both asides and main are increased */
+@media only Screen and (min-width: 1200px) {
+    #left-aside {
+        width: 225px;
+    }
+
+    #main-content {
+        width: 540px;
+    }
+
+    #right-aside {
+        width: 315px;
+    }
+}

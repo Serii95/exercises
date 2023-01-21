@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width","initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <textarea>
+        
+    </textarea>
+
+    <script>
+        const storyContent = {
+           "Persons": ["lawyer","crowd of people","judge","debt collector","prisoner","employee","mafia henchmen","soldier","milk delivery guy","scientist","engineer","carpenter","drunkard","bug collector","dying man","mutant","unemployed","suicidal person","magician","athlete","office worker","Accountant","Actor","Actress","Architect","Author","Baker","Bricklayer","Bus driver","a group of students","Butcher","Carpenter","Chef","Cleaner","Dentist","Designer","Doctor","Dustman/Refuse collector","Electrician","Factory","Farmer","a dentist","you","Fireman","Fisherman","Florist","Gardener","Hairdresser","Journalist","Judge","Lawyer","Lecturer","Librarian","Lifeguard","Mechanic","Model","Newsreader","Nurse","Optician","Painter","Pharmacist","Photographe","Pilot","Plumber","Politician","Policeman","Policewoman","Postman","Real estate agent","Receptionist","Scientist","Secretary","Shop assistant","Soldier","Tailor","Taxi driver","Teacher","Translator","Traffic warden","Travel agent","Veterinary","Waiter","Window cleaner",],
+
+           "Entities": ["a ghost","the devil","the slenderman","a dog","a bear","Bandit","Kobold","Cultist","Tribal Warrior","Flying Snake","Giant Rat","Giant Weasel","Flumph","Blood Hawk","Giant Crab","Acolyte","Boar","Bullywug","Drow","Goblin","Grimlock","Kenku","Skeleton","Winged Kobold","Zombie","Cockatrice","Deep Gnome","Crocodile","Gnoll","Hobgoblin","Lizardfolk","Orc","Satyr","Thug","Worg","Animated Armor","Bugbear","Death Dog","Dryad","Duergar","Ghoul","Giant Hyena","Goblin Boss","Hippogriff","Imp","Bandit Captain","Berserker","Carrion Crawler","Centaur","Cult Fanatic","Griffon","Intellect Devourer","Mimic","Ogre","Spined Devil","Orog","Pentadrone","Rhinoceros","Sea Hag","Swarm Of Poisonous Snakes","Wererat","Lizardfolk Shaman","Grick","Gibbering Mouther","Ghast","Basilisk","Bearded Devil","Bugbear Chief","Doppelganger","Displacer Beast","Grell","Hobgoblin Captain","Minotaur","Manticore","Phase Spider","Banshee","Chuul","Elephant","Ghost","Flameskull","Helmed Horror","Succubus","virus","Incubus","Lamia","SCP","Wereboar","Air Elemental","Beholder Zombie","Bulette","Flesh Golem","Drow Elite Warrior","Gladiator","Gorgon","Revenant","Umber Hulk","Fire Elemental","Hobgoblin Warlord","Mind Flayer","Frost Giant","Treant","a hound","a pollar bear","bigfoot","ufo","a monstrocity","a ghost of a pirate","a ghost of a pilot","a ghost of a knight",],
+
+           "Activities": ["escaping","venturing","repairing","collecting data","chasing","climbing","diving","wasting life","flying","jumping","cooking","reading","sleaping","Hiking","Backpacking","Camping","Hunting","Fishing","Archery","Canoeing","Kayaking","Running","Tighing","Geocaching","Growing Vegetables","Composting","Metal Detecting","Bird Watching","Beekeeping","Cool Hobbies","LARPing","Parkour","Astronomy","Meteorology","Kite Flying","Sand Castle Making","Hobby Horsing","Antiquing","Coin Collecting","Stamp Collecting","Vintage Clothing Collecting","Classic Car Collecting","Antique Book and Manuscript Collecting","Art Collecting","Shell and Sea Glass Collecting","Leaf Collecting and Pressing","Record Collecting","Postcard Collecting","Shoe Collecting","Toy Collecting","Memorabilia Collecting (e.g. Star Wars products)","Sports Memorabilia Collecting","Rock Tumbling","Cooking","Baking","Interesting Hobbies","Gingerbread House Making","Home Brewing","Wine Making","Mixology","Bread Making","Cheese Making","Sewing","Painting","Drawing","Origami","Photography","Chewing on","Scrapbooking","Calligraphy","Quilting","Crocheting","Knitting","Embroidery","Carpet and Tapestry Weaving","Designing and Making Clothes","Jewelry Making","Pottery","Metal Working","Wood Carving","Welding","Leather Tooling","Cobbling","Model Railroads","Furniture Building","Home Improvement","Containing","Model Building","Trivia","Video Games","Board Games","Card Games","Chess","Puzzles (jigsaw, crosswords, Sudoku, etc.)","Juggling","Table Tennis","Billiards","Genealogy","Language Learning","Journaling","Creative Writing","Clubbing","Book Clubbing","Home Science Experiments","Wikipedia Editing","Volunteering for a Historical Society","Playing an Instrument","Podcast Hosting","Amateur Radio","Thrifting","Makeup","Dancing","Hula Hooping","Aquarium Keeping","Computer Programming","Displaying hazardous behaviour","Working on Cars","Traveling","Cosplaying","Survivalist Prepping","Scuba Diving","Mountain Biking","Coffee Roasting","Adult Coloring","beating the shit of of a","hanging","dating","kicking","licking","smoking","praying","retrieve a","go see","get away","to tighten","to loosen","to organise","to collect","to demolish","to uperhand","to win","to reach","to forget","to build","to save","to attack","to pass","to find","to learn","to meet","to live through"],
+
+           "Objects": ["a ruler","a remote","a dildo","a knife","LEGO","sun glasses","lotion","door","chapter book","car","conditioner","sandal","mirror","street lights","house","candle","toe ring","tomato","fridge","blanket","lamp shade","chocolate","window","mp3 player","table","chapter book","candy wrapper","controller","pencil","cookie jar","shoe lace","greeting card","fork","fake flowers","stockings","rubber duck","pencil","newspaper","tire swing","soy sauce packet","apple","vase","glass","magnet","controller","keyboard","beef","sponge","ring","video games","bowl","toe","shoes","spring","playing card","blouse","glasses","screw","eraser","drawer","perfume","Van","Taxi","Police car","Bus","Ambulance","Skateboard","Baby carriage","Bicycle","Mountain bike","Scooter","Motorcycle","Fire engine","Crane","Forklift","Tractor","Recycling truck","Cement mixer","Dump truck","Subway","Aerial tramway","Helicopter","Airplane","Balloon","Tram ","Carriage","Rowboat","Boat","Train","zipper","camera","hair brush","food","clamp","water bottle","soap","stop sign","USB drive","buckle","lotion","vase","shampoo","scotch tape","teddies","tree","greeting card","headphones","model car","hair brush","credit card","speakers","money","eye liner","shoe lace","leg warmers","tissue box","USB drive","bowl","pen","controller","floor","tree","conditioner","keys","carrots","soap","lace","mop","fridge","toothpaste","tv","rug","shirt","a rotten piece of flesh","a curse of this world","my dignity","a veil of blood","a time machine","a chevrolle","a cogwheel","a pack of cigarettes","a condom","a screwdriver","a pen","an IBM computer","a gem","a tuna sandwitch","a steering wheel","a submarine"],
+            
+           "Locations": ["on the mountain","in the desert","on the sea floor","in someone's bedroom","in a dark forest","on the top sail","on an isolated planet","in the nowhere","underground","in a temple","in a university","in someone's mind","on Eiffel tower","in the office","on a TV-show","in a hunted mansion","on a resort","on a deathbed","on an alien ship","in a battelfield","Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua  Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia  Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre  Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts  Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad  Tobago","Tunisia","Turkey","Turkmenistan","Turks  Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe","in a rented garden","at the corner","at the edge"],
+
+           "Reason": ["because no other choice","because I am bored","Because Donated blood today.","Because Someone painted a d*ck on my car :(","Because My kid is .","Because Dog died, need to bury him.","Because in another country","Because Neighbours went ","Because Had fight","Because Have lots of work","Because My ankle got handcuffed ","Because Forgot","Because lost control","Because don't understand","Because bury","Because Waiting","Because  damaged vehicle","Because Hard luck","Because It's my duty","Because of Some carpenter","Because locked up","Because shouting at me.","Because ate marijuana and is behaving wierd.","Because AHHHHHHHH","Because Waiting for motivation to built up.","Because Came across a black cat when I stepped out of home.","Because Can't find my headphones.","Because Got some pain in the back","Because My gas cylinder is leaking.","Because Want to work with loud music today","Because Need to work peacefully without disturbance.","Because poisoning","Because No place ","Because Rain","Because All clothes in laundry. Will be working from home.","Because Morning wood not going away.","Because No electricity","Because Someone is coming","Because of tradition","Because of a Ritual","Because we all are gonna die","Because Car brokedown on the way","Because Waiting","Because Uninterested","Because don’t want to see","Because Waiting for connection to be setup.","because I am hungry","because I have nobody","because of updates","because they have pizza","because I'm horny","Because annoyed","because of thirst","because fuck you","because it's hot","because weather","because I'm scared","because I need a work","because we need to get the hell outta here","because it's dangerous","because that's the only thing I've known","because it's my job","because that doesn't mean anything to me","because I don't care"],
+
+           "Adjectives": ["big","small","enormous","ugly","tiresome","painfull","full of shit","invisible","burning","poisonous","radioactive","stupid","intelligent","great","strong","inspiring","supportive","cringy","unknown","regretfull","innovative","independent","professional","diligent","responsible","adaptable","perfect","flawless","wise","Alive","Attractive","Beautiful","Bustling","Calm","Charming","Cosmopolitan","Enchanting","Fascinating","Fresh","Homey","Inspiring","Lively","Peaceful","Picturesque","Unspoiled","Vibrant",],
+
+           "Determiners": ["my","your","his","her","its","our","their","over here","over there",],
+
+           "Connectors": ["if","who","that","when","because","although","but","and","yet","nor","either","or","both","and"],
+
+           "Cursing": ["fuck","shit","piss","cunt","fucking","asshole","motherfucking","motherfucker","shithead","goddamn","piece of shit","fuck face"],
+
+           "Slash": ["/"],
+
+           "Feelings": ["happiness","love","relief","contentment","amusement","joy","pride","excitement","peace","satisfaction","lonely","heartbroken","gloomy","disappointed","hopeless","grieved","unhappy","lost","troubled","resigned","miserable","worried","doubtful","nervous","anxious","terrified","panicked","horrified","desperate","confused","stressed","annoyed","frustrated","peeved","contrary","bitter","infuriated","irritated","mad","cheated","vengeful","insulted","dislike","revulsion","loathing","disapproving","offended","horrified","uncomfortable","nauseated","disturbed","withdrawn","aversion",],
+        };
+
+        function makeStoryPlot(guide){
+            let sentenceGuide;
+            let resultSentence;
+            let includeSeparators = false;
+            let writeMultipleSentences = true; // Enables the possibuility to write multiple sentences in case when no guide is provided
+            let PartAppearancePossibuility = 85; // Possibuility in % from 1 to 100 that the additional sentence parts e.g. Determiners appear in a sentence when no guide is provided
+            let PartAppearancePossibuilityNumber = 100 - PartAppearancePossibuility;
+            
+
+            if(Array.isArray(guide) || typeof(guide) == "number"){
+                resultSentence = sentenceGenerator(guide);
+            } else if (typeof(guide) =="string") {
+                if(guide == "help"){
+                    console.log("makeStoryPlot is a tool that allows the generation of a plot for an artistic work e.g. story, movie script, etc. \n The story is generated by calling the function makeStoryPlot(<argument>) with an argument that can be either a string, a number or an array of numbers. \n The plot consists of Story Content Types (SCT) which are collections of: parts of speech e.g. Verbs, Nouns, Adjectives \n as well as various types of subjects e.g. Persons, Entities, Objects, etc. \n The plot is generated by using the provided argument to arrange SCTs in a specific way. \n The SCTs are organised in the following categories: \n 0 = Persons \n 1 = Entities \n 2 = Activities \n 3 = Objects \n 4 = Locations \n 5 = Reason \n 6 = Adjectives \n 7 = Determiners \n 8 = Connectors \n 9 = Cursing \n 10 = Slash 'Used for separation' \n The following is the way how various argument types generate plots: \n \n makeStoryPlot(<array of numbers>) will output a string with a random SCT from the specified category/ies e.g. \n makeStoryPlot([0, 2] \n Will output: \n <A random person> <A random activity> \n \n makeStoryPlot(<number>) \n Will output the <number> quantity of random SCTs from random categories \n \n makeStoryPlot(<string>) \n Will output a plot with random SCTs from specific category types. The category types are specified in the scenario type. \n Please refer to scenario types for more details. \n \n makeStoryPlot(<help>) \n Will display this message. \n \n Scenario types: \n makeStoryPlot(<scenario-1>) \n 'An <Adjective1> <Person1> is trying to <Activity1> because <Reason1> but <Adjective2> <Person2> can't allow it because <Reason2>. In the end <Person1> accomplishes <Activity1> but at the cost of <Person2>s <Object1>'");
+                } else if(guide =="scenario-1"){
+                    let adjective1 = sentenceGenerator([6]);
+                    let adjective2 = sentenceGenerator([6]);
+                    let person1 = sentenceGenerator([0]);
+                    let person2 = sentenceGenerator([0]);
+                    let activity1 = sentenceGenerator([2]);
+                    let reason1 = sentenceGenerator([5]);
+                    let reason2 = sentenceGenerator([5]);
+                    let object1 = sentenceGenerator([3]);
+
+                    resultSentence = `A${adjective1}${person1}is trying to${activity1}${reason1}but${adjective2}${person2}can't allow it${reason2}.In the end${person1}accomplishes${activity1}but at the cost of${person2}'s${object1}`;
+                } else if(guide =="scenario-2"){
+                    let adjective1 = sentenceGenerator([6]);
+                    let adjective2 = sentenceGenerator([6]);
+                    let adjective3 = sentenceGenerator([6]);
+                    let adjective4 = sentenceGenerator([6]);
+                    let adjective5 = sentenceGenerator([6]);
+                    let adjective6 = sentenceGenerator([6]);
+                    let adjective7 = sentenceGenerator([6]);
+                    let adjective8 = sentenceGenerator([6]);
+                    let adjective9 = sentenceGenerator([6]);
+                    let person1 = sentenceGenerator([0]);
+                    let person2 = sentenceGenerator([0]);
+                    let object1 = sentenceGenerator([3]);
+                    let activity1 = sentenceGenerator([2]);
+                    let activity2 = sentenceGenerator([2]);
+                    let activity3 = sentenceGenerator([2]);
+                    let location1 = sentenceGenerator([4]);
+                    let reason1 = sentenceGenerator([5]);
+                    let feeling1 = sentenceGenerator([11]);
+
+                    resultSentence = `A${adjective1}${adjective2}${adjective3}${person1}with a${adjective4}${adjective5}${adjective6}${object1}is trying to${activity1}in${location1}${reason1}, while doing it he stumbles upon a${adjective7}${adjective8}${adjective9}${person2}who is${activity2}. This makes him feel${feeling1}so he decides to${activity3}with${person2}together.`;
+                }
+            } else {
+                sentenceGuide = [];
+                let tmpLength = 0;
+
+                while (tmpLength < 9){
+                    let tmp = Math.floor(Math.random() * (100 - 1) + 1);
+
+                    if(tmpLength == 0){
+                        if(tmp > PartAppearancePossibuilityNumber){
+                            sentenceGuide.push(8);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 1) {
+                        if(tmp <= 35){
+                            sentenceGuide.push(0);
+                        } else if (tmp > 35 && tmp < 65){
+                            sentenceGuide.push(1);
+                        } else if (tmp > 65 && tmp < 85){
+                            sentenceGuide.push(3);
+                        } else {
+                            sentenceGuide.push(4);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 2) {
+                        sentenceGuide.push(2);
+                        tmpLength++;
+                    }  else if(tmpLength == 3) {
+                        if(tmp <= 50){
+                            sentenceGuide.push(6);
+                        } else {
+                            sentenceGuide.push(7);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 4) {
+                        if(tmp > PartAppearancePossibuilityNumber){
+                            sentenceGuide.push(3);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 5) {
+                        if(tmp > PartAppearancePossibuilityNumber){
+                            sentenceGuide.push(4);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 6) {
+                        if(tmp > PartAppearancePossibuilityNumber){
+                            sentenceGuide.push(5);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 7) {
+                        if(tmp <= 50){
+                            sentenceGuide.push(6);
+                        } else {
+                            sentenceGuide.push(7);
+                        }
+                        tmpLength++;
+                    } else if(tmpLength == 8) {
+                        if(includeSeparators){
+                            sentenceGuide.push(10);
+                        }
+
+                        if(writeMultipleSentences){
+                            if(tmp >= 51){
+                                tmpLength = 0;
+                            } else {
+                                tmpLength++;
+                            }
+                        } else {
+                            tmpLength++;
+                        }
+                    }
+
+                    if(includeSeparators){
+                        sentenceGuide.push(10);
+                    }
+                }
+                resultSentence = sentenceGenerator(sentenceGuide);
+            }
+            return resultSentence;
+        }
+
+        function sentenceGenerator(guide){
+            const contentNames = Object.keys(storyContent);
+            let result ="";
+            let length = Array.isArray(guide) ? guide.length : guide;
+            for(let i = 0; i < length; i++){
+                let contentType = Array.isArray(guide) ? contentNames[guide[i]] : 
+                contentNames[Math.floor(Math.random() * (contentNames.length - 0)+0)];
+
+                let content = storyContent[contentType][Math.floor(Math.random() * (storyContent[contentType].length - 0)+0)];
+                result += ` ${content} `;
+            }
+            return result;
+        }
+
+        // <iframe width="1216" height="684" src="https://www.youtube.com/embed/jfKfPfyJRdk" title="lofi hip hop radio - beats to relax/study to" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        // Rockabilly, synthwave, postrock, alternative rock, doom, work radio
+        // <iframe width="1216" height="684" src="https://www.youtube.com/embed/Lcdi9O2XB4E" title="tokyo night drive - lofi hiphop + chill + beats to sleep/relax/study to ✨" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        // <iframe width="1142" height="642" src="https://www.youtube.com/embed/5_rF342Ncgc" title="24/7 Electro Swing Radio - Enjoy the best Swings in 2022 🎧 | Welcome Ladies & Gentlemen!~ 🥂 🥳" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </script>
+</body>
+</html>
+
+<!-- https://www.reddit.com/r/d100/comments/8jmo2x/list_of_100_random_monsters_cr_going_up/ -->
+<!-- https://hobbyhelp.com/inspiration/list-of-hobbies/ -->
+<!-- https://www.randomlists.com/things --> 
+<!-- https://idontlike.work/#/ -->
+
